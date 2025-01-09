@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "i-button": "../../dist/button/index",
+    "table":"../../components/table/table",
+    "action-td":"../../components/action-td/action-td"
+  }
+}

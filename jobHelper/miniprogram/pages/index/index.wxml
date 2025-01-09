@@ -1,0 +1,9 @@
+<!-- 底部导航栏 -->
+<van-tabbar active="{{ active }}" bind:change="onChange">
+  <van-tabbar-item icon="home-o">首页</van-tabbar-item>
+  <van-tabbar-item icon="friends-o">我的</van-tabbar-item>
+</van-tabbar>
+
+<!-- 每一行必须有唯一标识符，id，作为rowKey -->
+<table tableHeight="{{1200}}" rowKey = "id" bindlongpress = "handleRowLongPress" isExpand = "{{true}}" columns = "{{columns}}" dataList = "{{dataList}}" getListLoading="{{false}}" showTipImage="{{false}}">
+</table>

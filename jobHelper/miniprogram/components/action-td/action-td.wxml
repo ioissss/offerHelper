@@ -1,0 +1,5 @@
+<view class = "action-box" catchtap="handleClickItem" data-type="{{columns.key}}">
+  <block>
+    <view class = "age">{{item.content}}</view>
+  </block>
+</view>

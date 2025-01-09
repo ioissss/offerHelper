@@ -1,0 +1,1 @@
+"D:\微信web开发者工具\cli.bat" cloud functions deploy --e findwork-0gd79ch16a9fbc12 --n quickstartFunctions --r --project "C:\Users\clear\Documents\GitHub\offerHelper\jobHelper" --report_first --report
