@@ -1,0 +1,29 @@
+/* 样式重点是这个容器: 宽度为本身容器的100%, 横向溢出滑动并且不能换行 */
+.pane-con {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+/* 取消滚动条展示 */
+.pane-con::-webkit-scrollbar {
+  display: none;
+}
+.inline {
+  display: inline-block;
+}
+.tabs-pane {
+  padding: 10rpx 20rpx;
+  margin-right: 16rpx;
+  border: 1px solid lightgrey;
+  border-radius: 8rpx;
+  transition: all .1s ease-in;
+}
+.tabs-pane:nth-last-child(1) {
+margin-right: 0;
+}
+.tabs-pane.active {
+background: #5495df;
+border-color: #5495df;
+color: #fff;
+}

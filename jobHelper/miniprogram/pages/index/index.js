@@ -39,7 +39,32 @@ Page({
       {'id':3,'company':333, 'type':333,'jobType':333,'state':333,'city':333,'resume':333},
       {'id':4,'company':444, 'type':444,'jobType':444,'state':444,'city':444,'resume':444},
       {'id':5,'company':555, 'type':555,'jobType':555,'state':555,'city':555,'resume':555},
-    ]
+    ],
+    tabs:[
+      {
+        "label":"1",
+        "id":0,
+        "icon":"../../../images/statistic.png"
+      },
+      {
+        "label":"2",
+        "id":1
+      }
+    ],
+    activeTab: 0,
+    tabStyle: {
+      fontSize: "14px",
+      padding: "10px 20px",
+    },
+    tabActiveStyle: {
+      fontWeight: "bold",
+      borderBottom: "10px solid #007aff", // 添加下划线
+    },
+    tabsStyle: {
+      display: "flex",
+      justifyContent: "space-around",
+      borderBottom: "1px solid #ccc",
+    }
   },
   // ---------------- 自定义方法 ----------------
   onChange(event){

@@ -1,1 +1,48 @@
 /* pages/index/index.wxss */
+page{
+  background-color: #f4f3e8;
+}
+
+.personalInfo{
+  width: 100%;
+  height: 230rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.name{
+  display: flex;
+  align-items: center;
+}
+
+.statistical{
+width: 100%;
+height: 100rpx;
+display: flex;
+flex-direction: row;
+}
+
+.statistical-item{
+  display: flex;
+  flex-direction: column;
+  margin-left: 35rpx;
+}
+
+
+
+/* 自定义根节点样式 */
+
+/* 自定义标签栏样式 */
+
+/* 自定义每个标签的样式 */
+/* 自定义激活状态的标签样式 */
+.custom-tab-active {
+  color: #007aff;
+  font-weight: bold;
+  border-bottom: 2px solid #007aff;
+}
+
+/* 自定义标签栏根节点样式 */
+.custom-wrap {
+  padding: 0 16px;
+}

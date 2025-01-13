@@ -28,9 +28,11 @@
             class="{{ computed.tabClass(index === currentIndex, ellipsis) }} {{ utils.bem('tab', { active: index === currentIndex, disabled: item.disabled, complete: !ellipsis }) }}"
             style="{{ computed.tabStyle({ active: index === currentIndex, ellipsis, color, type, disabled: item.disabled, titleActiveColor, titleInactiveColor, swipeThreshold, scrollable }) }}"
             bind:tap="onTap"
+            style="background-color: #f4f3e8;"
           >
-            <view class="{{ ellipsis ? 'van-ellipsis' : '' }}" style="{{ item.titleStyle }}">
-              {{ item.title }}
+            <view class="{{ ellipsis ? 'van-ellipsis' : '' }}" style="{{ item.titleStyle }}" 
+            >
+{{item.title}}
               <van-info
                 wx:if="{{ item.info !== null || item.dot }}"
                 info="{{ item.info }}"

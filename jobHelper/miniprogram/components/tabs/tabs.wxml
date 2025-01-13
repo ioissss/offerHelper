@@ -1,0 +1,13 @@
+<view class="tabs-container">
+  <scroll-view style="{{tabsConStyle}}" class="pane-con" scroll-x enhanced bounces scroll-into-view="{{currentTab}}">
+    <view wx:for="{{tabs}}" wx:key="id" id="{{item.id}}" class="tabs-pane inline {{index === activeTab ? 'active' : ''}}" style="{{index === activeTab ? paneActiveStyle : paneStyle}}" bindtap="switchTab" data-index="{{index}}">{{item.label}}</view>
+  </scroll-view>
+  <block wx:for="{{tabs}}" wx:key="id">
+    <!-- 可以使用每项对应的插槽 -->
+    <view class="tabs-content" wx:if="{{activeTab === index}}">
+      <slot name="{{index}}"></slot>
+    </view>
+    <!-- 如果使用页面中每tab只是数据不同或其它情况, 也可以使用这个默认插槽 -->
+    <slot></slot>
+  </block>
+</view>

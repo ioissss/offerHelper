@@ -1,3 +1,88 @@
+<!-- 个人信息栏 -->
+<view class="personalInfo">
+<view style="display: flex;justify-content: center;flex-direction: column;margin-left: 40rpx;">
+<!-- 名字 -->
+<view>
+<text style="font-weight: 530;font-size: 35rpx;">张大权</text>
+</view>
+<!-- 额外信息 -->
+<text style="font-size: 18rpx; font-weight: 100rpx;margin-top: 5rpx;">111</text>
+</view>
+
+<view class="name" style="margin-left: 400rpx;">
+  <van-image style="position: relative; left: 75rpx; top: 0rpx"
+  round
+  width="100rpx"
+  height="100rpx"
+  src="https://img.yzcdn.cn/vant/cat.jpeg"
+/>
+</view>
+</view>
+
+<!-- 统计信息栏 -->
+<view class="statistical">
+
+
+<view class="statistical-item">
+<view>
+<text style="font-size: 35rpx;font-weight: 600;">604</text>
+</view>
+<text style="font-size: 22rpx;">投递数量</text>
+</view>
+
+<view class="statistical-item" style="margin-left: 80rpx;">
+<view>
+<text style="font-size: 35rpx;font-weight: 600;">604</text>
+</view>
+<text style="font-size: 22rpx;">约面</text>
+</view>
+
+<view class="statistical-item" style="margin-left: 80rpx;">
+<view>
+<text style="font-size: 35rpx;font-weight: 600;">108</text>
+</view>
+<text style="font-size: 22rpx;">offer</text>
+</view>
+
+</view>
+
+<view style="display: flex; flex-direction: row; width: 750rpx; height: 100rpx; position: relative; left: 0rpx; top: 22rpx; z-index: 999;">
+  <van-image style="margin-left: 85rpx;margin-top: 27rpx;"
+  round
+  width="70rpx"
+  height="70rpx"
+  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E7%BB%9F%E8%AE%A1.png"
+/>
+<van-image style="margin-left: 150rpx; margin-top: 27rpx; position: relative; left: 36rpx; top: 0rpx"
+  round
+  width="70rpx"
+  height="70rpx"
+  src="https://img01.yzcdn.cn/vant/cat.jpeg"
+/>
+<van-image style="margin-left: 195rpx; margin-top: 27rpx; position: relative; left: 22rpx; top: 0rpx"
+  round
+  width="70rpx"
+  height="70rpx"
+  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E7%BB%9F%E8%AE%A1.png"
+/>
+</view>
+
+<!-- 功能分栏 -->
+<van-tabs
+swipeable="{{true}}"
+duration="{{0.4}}"
+ active="b" color="#000000">
+  <van-tab title="统计" name="a">
+  111
+  </van-tab>
+  <van-tab title="投递表" name="b">
+  222
+  </van-tab>
+  <van-tab title="目标" name="c">
+  333
+  </van-tab>
+</van-tabs>
+
 <!-- 底部导航栏 -->
 <van-tabbar active="{{ active }}" bind:change="onChange">
   <van-tabbar-item icon="home-o">首页</van-tabbar-item>
@@ -5,5 +90,5 @@
 </van-tabbar>
 
 <!-- 每一行必须有唯一标识符，id，作为rowKey -->
-<table tableHeight="{{1200}}" rowKey = "id" bindlongpress = "handleRowLongPress" isExpand = "{{true}}" columns = "{{columns}}" dataList = "{{dataList}}" getListLoading="{{false}}" showTipImage="{{false}}">
-</table>
+<!-- <table tableHeight="{{1200}}" rowKey = "id" bindlongpress = "handleRowLongPress" isExpand = "{{true}}" columns = "{{columns}}" dataList = "{{dataList}}" getListLoading="{{false}}" showTipImage="{{false}}">
+</table> -->
