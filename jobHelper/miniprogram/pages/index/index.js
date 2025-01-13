@@ -28,44 +28,37 @@ Page({
         'key':'city'
       },
       {
-        'title':'简历',
-        'key':'resume'
+        'title':'日期',
+        'key':'date'
+      },
+      {
+        'title':'详情',
+        'key':'detail'
       }
     ],
     dataList:[
-      {'id':1,'company':111, 'type':111,'jobType':111,'state':111,'city':111,'resume':111},
+      {'id':1,'company':"腾讯", 'type':111,'jobType':111,'state':111,'city':111,'date':111,'detail':11},
       // {'id':2,'content':222, 'content':222,'content':222,'content':222,'content':222,'content':222},
-      {'id':2,'company':222, 'type':222,'jobType':222,'state':222,'city':222,'resume':222},
-      {'id':3,'company':333, 'type':333,'jobType':333,'state':333,'city':333,'resume':333},
-      {'id':4,'company':444, 'type':444,'jobType':444,'state':444,'city':444,'resume':444},
-      {'id':5,'company':555, 'type':555,'jobType':555,'state':555,'city':555,'resume':555},
+      {'id':2,'company':"华为", 'type':222,'jobType':222,'state':222,'city':222,'date':222,'detail':11},
+      {'id':3,'company':"字节和心脏只有一个能跳动", 'type':333,'jobType':333,'state':333,'city':333,'date':333,'detail':11},
+      {'id':4,'company':"百度", 'type':444,'jobType':444,'state':444,'city':444,'date':444,'detail':11},
+      {'id':5,'company':"阿里巴巴", 'type':555,'jobType':555,'state':555,'city':555,'date':555,'detail':11},
     ],
-    tabs:[
-      {
-        "label":"1",
-        "id":0,
-        "icon":"../../../images/statistic.png"
-      },
-      {
-        "label":"2",
-        "id":1
-      }
-    ],
-    activeTab: 0,
-    tabStyle: {
-      fontSize: "14px",
-      padding: "10px 20px",
-    },
-    tabActiveStyle: {
-      fontWeight: "bold",
-      borderBottom: "10px solid #007aff", // 添加下划线
-    },
-    tabsStyle: {
-      display: "flex",
-      justifyContent: "space-around",
-      borderBottom: "1px solid #ccc",
-    }
+
+    // tabs
+    tabs:['a','b','c'],
+    active_tab:1,
   },
+// ----------- tab -------------
+handleChange({detail}){
+  this.setData({
+    active_tab:Number(detail.index)
+  });
+},
+onClickTabImage(e){
+this.setData({active_tab:Number(e.currentTarget.dataset.index)});
+},
+
   // ---------------- 自定义方法 ----------------
   onChange(event){
     this.setData({active:event.detail});
@@ -78,7 +71,20 @@ Page({
       return;
     const { rowkey } = e.detail; // 获取当前行数据
   },
-
+  handleClickExpand(e) {
+    console.log(e);
+    let str = '';
+    const { type, index, item } = e.detail.value;
+    if (type === 'name') {
+        str = '点击了姓名';
+    }
+    else if (type === 'age') {
+        str = '点击了年龄';
+    }
+    else if (type === 'sex') {
+        str = '点击了性别';
+    }
+},
 
 
   /**
