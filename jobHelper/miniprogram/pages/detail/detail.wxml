@@ -1,0 +1,49 @@
+<!-- 展示数据：
+1. 公司名称 √
+2. 所属行业 √
+3. 公司规模 √
+4. 企业性质 √
+5. 投递岗位 
+6. 城市 √
+7. 投递日期 √
+8. 岗位JD
+9. 投递链接 √
+10. 投递简历
+11. 投递进度
+12. 备注 -->
+
+<!-- 公司信息 -->
+<view class="card">
+ 
+<view class="CompanyInfo">
+  <text style="margin-left: 20rpx;font-weight: 750;font-size: 40rpx;">{{data.company}}</text>
+  <view style="display: flex;flex-direction: row; align-items: center;margin-left: 300rpx;">
+    <van-icon size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%85%B6%E4%BB%96%E4%BA%BA%E5%91%98.png" />
+    <text style="font-size: 30rpx;color: #5f5d5d;">1w+</text>
+  </view>
+</view>
+
+<view class="dashed-line" style="position: relative; left: 17rpx; top: -16rpx"></view>
+
+<!-- 标签 -->
+<view style="margin-left: 20rpx;">
+  <van-tag size="medium" color="#f2826a">互联网</van-tag>
+  <van-tag style="margin-left: 50rpx;" size="medium" color="#a4c9d1">私企</van-tag>
+  <van-tag style="margin-left: 50rpx;" size="medium" color="#a4c9d1">城市</van-tag>
+</view>
+
+<view style="margin-left: 20rpx;display: flex;flex-direction: column;margin-top: 15rpx;">
+<text style="font-size: 20rpx;color: rgb(133, 119, 119);">投递日期 : 2025/1/13</text>
+<text selectable="true" style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递链接 : https://gitee.com.png</text>
+<text style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递岗位 : 开发</text>
+</view>
+
+</view>  
+
+<view style="margin-left: 20rpx;">
+<van-steps
+  steps="{{ steps }}"
+  active="{{ active }}"
+  active-color="#ee0a24"
+/>
+</view>

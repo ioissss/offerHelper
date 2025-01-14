@@ -1,6 +1,7 @@
 <wxs src="./table.wxs" module="table" />
 <view class="list" style="heigth:{{tableHeight}}">
   <scroll-view class="table-header" scroll-x="{{scrollX}}" bindscroll="handleScroll" bindtouchstart="handleTouchStart" bindtouchend="handleTouchEnd" data-tag="header" scroll-left="{{scrollLeftHeader}}">
+
     <view class="inline-block" style="background-color: #f4f3e8;">
       <view class="tr tr-th">
         <view class="th select" wx:if="{{select}}"></view>
@@ -9,7 +10,9 @@
         </view>
       </view>
     </view>
+    
   </scroll-view>
+  
   <scroll-view class="scroll-view" scroll-y scroll-x="{{scrollX}}" bindscroll="handleScroll" bindtouchstart="handleTouchStart" bindtouchend="handleTouchEnd" data-tag="content" scroll-left="{{scrollLeftContent}}" scroll-top="{{scrollTop}}" style="height:{{tableScrollViewHeight}}" bindscrolltolower="handleScrolltolower" bindscrolltoupper="handleScrolltoupper" upper-threshold="{{0}}" lower-threshold="{{100}}">
 
     <!-- 每一行 -->

@@ -19,7 +19,6 @@ Component({
     handleClickItem(e) {
       const { type } = e.currentTarget.dataset;
       const { index, item } = this.data;
-      console.log(this.data.item);
       this.triggerEvent('clickaction', {
           value: {
               type,
@@ -32,6 +31,13 @@ Component({
               index, item
           }
       });
+      this.goto(item);
+  },
+  goto(item){
+    let data = JSON.stringify(item);
+    wx.navigateTo({
+      url: '/pages/detail/detail?data=' + data,
+    })
   }
   }
 })

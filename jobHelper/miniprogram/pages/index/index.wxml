@@ -79,6 +79,7 @@ duration="{{0.4}}"
   <van-tab key="tab2" title="我的投递" name="b">
   <!-- 每一行必须有唯一标识符，id，作为rowKey -->
 <table
+select="{{false}}"
 generic:action-td="action-td"
 isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:expand-component="expand-component" bindclickexpand="handleClickExpand"
  tableHeight="{{1200}}" rowKey = "id" bindlongpress = "handleRowLongPress" columns = "{{columns}}" dataList = "{{dataList}}" getListLoading="{{false}}" showTipImage="{{false}}">

@@ -3,7 +3,8 @@
     "pages/index/index",
     "components/action-td/action-td",
     "pages/Mine/Mine",
-    "components/tabs/tabs"
+    "components/tabs/tabs",
+    "pages/detail/detail"
   ],
   "window": {
     "backgroundColor": "#f4f3e8",

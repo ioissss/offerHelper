@@ -33,7 +33,8 @@ Page({
       },
       {
         'title':'详情',
-        'key':'detail'
+        'key':'detail',
+        'type':'action'
       }
     ],
     dataList:[
@@ -85,7 +86,6 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
         str = '点击了性别';
     }
 },
-
 
   /**
    * 生命周期函数--监听页面加载

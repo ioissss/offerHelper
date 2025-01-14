@@ -7,6 +7,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "详情页",
+          "pathName": "pages/detail/detail",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "直方图",
           "pathName": "components/histogram/histogram",
           "query": "",

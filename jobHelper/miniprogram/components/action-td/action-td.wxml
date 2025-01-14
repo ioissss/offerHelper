@@ -1,5 +1,5 @@
 <view class = "action-box" catchtap="handleClickItem" data-type="{{columns.key}}">
-  <block wx:if="{{columns.key === 'date'}}">
-    <view class="date">{{aaa}}</view>
+  <block wx:if="{{columns.key === 'detail'}}">
+    <button>></button>
   </block>
 </view>

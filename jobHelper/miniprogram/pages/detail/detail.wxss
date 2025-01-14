@@ -1,0 +1,30 @@
+/* pages/detail/detail.wxss */
+page{
+  background-color: #f4f3e8;
+}
+
+.card{
+  margin-top: 50rpx;
+  width: 90%;
+  margin-left: 5%;
+  height: 350rpx;
+  background: #dde6e3;
+  border-radius: 30rpx;
+  box-shadow: 5px 5px 5px #cdcfcf;
+ }
+
+ .CompanyInfo{
+  border-radius: 30rpx;
+   margin-top: 10rpx;
+   height: 80rpx;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }
+
+ /* 虚线样式 */
+.dashed-line {
+  width: 95%;
+  border-top: 1px dashed rgb(158, 155, 155); /* 设置虚线样式 */
+  margin: 8px 0; /* 上下边距 */
+}
