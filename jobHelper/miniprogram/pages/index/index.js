@@ -1,3 +1,5 @@
+import {GetUserRecord,AddUserRecord} from '../../utils/db.js'
+
 // pages/index/index.js
 Page({
 
@@ -91,7 +93,8 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    GetUserRecord(this.data.dataList);
+    AddUserRecord(this.data.dataList);
   },
 
   /**

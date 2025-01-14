@@ -2,6 +2,9 @@
   "usingComponents": {
     "van-icon": "@vant/weapp/icon/index",
     "van-tag": "@vant/weapp/tag/index",
-    "van-steps": "@vant/weapp/steps/index"
+    "van-steps": "@vant/weapp/steps/index",
+    "van-divider": "@vant/weapp/divider/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-image": "@vant/weapp/image/index"
   }
 }

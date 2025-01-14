@@ -6,7 +6,7 @@
 5. 投递岗位 √
 6. 城市 √
 7. 投递日期 √
-8. 岗位JD
+8. 岗位JD 
 9. 投递链接 √
 10. 投递简历
 11. 投递进度 √
@@ -51,9 +51,60 @@
 
 </view>  
 
+<van-divider />
 
-<popover id='popover'>
-    <popover-item bindtap='onClickA' hasline>内容超出会自动隐藏用...表示</popover-item>
-    <popover-item hasline>子菜单B</popover-item>
-    <popover-item>子菜单C</popover-item>
-</popover>
+<view>
+
+<view style="margin-left: 40rpx;"><text style="font-size: 35rpx;font-weight: 750;">岗位描述</text></view>
+<view style="margin-left: 120rpx;margin-top: 20rpx;width: 70%;">
+ <view>
+  <text style="color: rgb(133, 119, 119);">岗位描述啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊aaaaaaaaaaaaaaa</text>
+</view>
+  <!-- 最大上传100KB字节 -->
+  <view style="margin-top: 25rpx;">
+  <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="2" file-list="{{ fileList }}" bind:after-read="afterRead">
+  <view wx:if="{{fileList.length==0}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 470rpx;">
+    <van-image
+  width="120rpx"
+  height="120rpx"
+  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
+/>
+</view>
+  </van-uploader>
+</view>
+</view>
+
+<van-divider />
+
+<view style="margin-left: 40rpx;">
+<view>
+<text style="font-size: 35rpx;font-weight: 750;">简历</text>
+</view>
+<view style="margin-top: 20rpx;display: flex;flex-direction: column;margin-left: 70rpx;" wx:if="{{resumeFile.length !=0}}">
+<van-image
+  width="120rpx"
+  height="120rpx"
+  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png"
+/>
+<text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{resumeFile.name}}</text>
+</view>
+<view bind:tap="chooseFileFromMessage" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 550rpx;" wx:if="{{resumeFile.length==0}}">
+<van-image
+  width="120rpx"
+  height="120rpx"
+  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
+/>
+</view>
+</view>
+
+<view style="margin-left: 40rpx;margin-top: 20rpx;"><text style="font-size: 35rpx;font-weight: 750;">备注</text></view>
+<view style="margin-left: 120rpx;margin-top: 20rpx;width: 70%;">
+  <text style="color: rgb(133, 119, 119);">这是一条备注</text>
+</view>
+
+
+
+<van-divider />
+
+</view>
+<van-divider />
