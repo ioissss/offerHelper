@@ -3,13 +3,13 @@
 2. 所属行业 √
 3. 公司规模 √
 4. 企业性质 √
-5. 投递岗位 
+5. 投递岗位 √
 6. 城市 √
 7. 投递日期 √
 8. 岗位JD
 9. 投递链接 √
 10. 投递简历
-11. 投递进度
+11. 投递进度 √
 12. 备注 -->
 
 <!-- 公司信息 -->
@@ -27,7 +27,9 @@
 
 <!-- 标签 -->
 <view style="margin-left: 20rpx;">
+<block>
   <van-tag size="medium" color="#f2826a">互联网</van-tag>
+</block>
   <van-tag style="margin-left: 50rpx;" size="medium" color="#a4c9d1">私企</van-tag>
   <van-tag style="margin-left: 50rpx;" size="medium" color="#a4c9d1">城市</van-tag>
 </view>
@@ -38,12 +40,20 @@
 <text style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递岗位 : 开发</text>
 </view>
 
-</view>  
-
-<view style="margin-left: 20rpx;">
+<view style=" margin-left: 35rpx;margin-top: 10rpx;width: 90%;">
 <van-steps
+  bind:click-step="onClickStep"
   steps="{{ steps }}"
   active="{{ active }}"
-  active-color="#ee0a24"
+  active-color="#29f07f"
 />
 </view>
+
+</view>  
+
+
+<popover id='popover'>
+    <popover-item bindtap='onClickA' hasline>内容超出会自动隐藏用...表示</popover-item>
+    <popover-item hasline>子菜单B</popover-item>
+    <popover-item>子菜单C</popover-item>
+</popover>

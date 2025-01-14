@@ -5,27 +5,36 @@ Page({
     active:1,
     steps: [
       {
-        text: '步骤一',
-        inactiveIcon: 'location-o',
+        text: '投递',
+        desc:"25/1/13",
+        inactiveIcon: 'star-o',
         activeIcon: 'success',
       },
       {
-        text: '步骤二',
-        inactiveIcon: 'like-o',
-        activeIcon: 'plus',
-      },
-      {
-        text: '步骤三',
+        text: '一面',
+        desc:"25/1/13",
         inactiveIcon: 'star-o',
-        activeIcon: 'cross',
+        activeIcon: 'success',
       },
       {
-        text: '步骤四',
-        inactiveIcon: 'phone-o',
-        activeIcon: 'fail',
+        text: '二面',
+        inactiveIcon: 'star-o',
+        activeIcon: 'success',
+      },
+      {
+        text: 'offer',
+        inactiveIcon: 'star-o',
+        activeIcon: 'success',
       },
     ],
   },
+  // -------------- 点击进度条 -----------------
+  onClickStep(e){
+    const index = e.detail;
+    this.setData({active:index});
+  },
+
+  // --------------- 弹出框框 -------------------
 
   /**
    * 生命周期函数--监听页面加载
@@ -39,7 +48,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
+    this.popover = this.selectComponent('#popover');
   },
 
   /**

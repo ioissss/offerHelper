@@ -7,7 +7,7 @@ page{
   margin-top: 50rpx;
   width: 90%;
   margin-left: 5%;
-  height: 350rpx;
+  height: 420rpx;
   background: #dde6e3;
   border-radius: 30rpx;
   box-shadow: 5px 5px 5px #cdcfcf;
@@ -27,4 +27,8 @@ page{
   width: 95%;
   border-top: 1px dashed rgb(158, 155, 155); /* 设置虚线样式 */
   margin: 8px 0; /* 上下边距 */
+}
+
+#tab1{
+  
 }
