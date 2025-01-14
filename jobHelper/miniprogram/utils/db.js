@@ -1,10 +1,13 @@
 const db = wx.cloud.database();
 
 // 查询某个用户的记录
-export function GetUserRecord(e){
+export function GetUserRecord(params){
   db.collection('records').get({
     success:function(res){
-      console.log(res);
+      params.success && params.success(res);
+    },
+    fail:function(res){
+      params.fail && params.fail(res);
     }
   })
 }
