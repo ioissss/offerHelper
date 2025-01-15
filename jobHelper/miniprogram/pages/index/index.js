@@ -1,5 +1,6 @@
 import {GetUserRecord,AddUserRecord} from '../../utils/db.js'
-
+import {GetOpenID} from '../../utils/Login.js'
+const LOGIN = require("../../utils/Login")
 // pages/index/index.js
 Page({
 
@@ -36,19 +37,13 @@ Page({
         'type':'action'
       }
     ],
-    dataList:[
-      {'id':1,'company':"腾讯", 'type':"互联网",'jobType':"测试岗",'state':"已投递",'city':"北京",'date':"2025/1/14",'detail':11},
-      // {'id':2,'content':222, 'content':222,'content':222,'content':222,'content':222,'content':222},
-      {'id':2,'company':"华为", 'type':222,'jobType':222,'state':222,'city':222,'date':222,'detail':11},
-      {'id':3,'company':"字节和心脏只有一个能跳动", 'type':333,'jobType':333,'state':333,'city':333,'date':333,'detail':11},
-      {'id':4,'company':"百度", 'type':444,'jobType':444,'state':444,'city':444,'date':444,'detail':11},
-      {'id':5,'company':"阿里巴巴", 'type':555,'jobType':555,'state':555,'city':555,'date':555,'detail':11},
-    ],
+    isLoadingData:true,
 
     // tabs
     tabs:['a','b','c'],
     active_tab:1,
   },
+
 // ----------- tab -------------
 handleChange({detail}){
   this.setData({
@@ -90,24 +85,20 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    var that = this;
-    const params = {
-      data:{},
-      success:function(res){
-        console.log(res);
-        that.setData({
-          dataList:res.data[0].record
-        });
+    // 登录
+    var params = {
+      'success':(res)=>{
+        this.setData({dataList:res.data[0].record});
+        this.setData({isLoadingData:false});
       },
-      fail:function(res){
+      'fail':(res)=>{
         wx.showToast({
-          title: '网络不太好~',
+          title: '网络出错啦~',
           icon:'error'
         })
       }
     }
-    GetUserRecord(params);
-    // AddUserRecord(this.data.dataList);
+    LOGIN.Login(params);
   },
 
   /**

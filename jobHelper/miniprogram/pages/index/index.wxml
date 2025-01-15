@@ -82,7 +82,7 @@ duration="{{0.4}}"
 select="{{false}}"
 generic:action-td="action-td"
 isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:expand-component="expand-component" bindclickexpand="handleClickExpand"
- tableHeight="{{1200}}" rowKey = "id" bindlongpress = "handleRowLongPress" columns = "{{columns}}" dataList = "{{dataList}}" getListLoading="{{false}}" showTipImage="{{false}}">
+ tableHeight="{{1200}}" rowKey = "id" bindlongpress = "handleRowLongPress" columns = "{{columns}}" dataList = "{{dataList}}" getListLoading="{{isLoadingData}}" showTipImage="{{false}}">
 </table>
   </van-tab>
 

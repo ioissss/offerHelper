@@ -4,7 +4,8 @@
     "components/action-td/action-td",
     "pages/Mine/Mine",
     "components/tabs/tabs",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/addRecord/index"
   ],
   "window": {
     "backgroundColor": "#f4f3e8",
