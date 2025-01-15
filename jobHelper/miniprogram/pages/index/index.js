@@ -42,6 +42,17 @@ Page({
     // tabs
     tabs:['a','b','c'],
     active_tab:1,
+
+    // 增加记录
+    showAddPanel:false,
+    companyName:"",
+    fileList:[],
+    resumeFile:[],
+    city:"",
+    job:"",
+    url:"",
+    jobDesc:"",
+    sector:"", //所属行业
   },
 
 // ----------- tab -------------
@@ -80,6 +91,11 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
         str = '点击了性别';
     }
 },
+
+  // 添加新记录
+  goto(){
+    this.setData({showAddPanel:true});
+  },
 
   /**
    * 生命周期函数--监听页面加载

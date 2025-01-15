@@ -46,3 +46,24 @@ flex-direction: row;
 .custom-wrap {
   padding: 0 16px;
 }
+
+
+.fixed-top {
+  position: fixed; /* 固定在屏幕上 */
+  top: 1250rpx; /* 距离屏幕顶部 0 */
+  left: 318rpx; /* 距离屏幕左侧 0 */
+  z-index: 9999; /* 确保位于最上层 */
+  background-color: transparent; /* 背景透明（可根据需要调整） */
+  width: 120rpx; /* 设置宽度 */
+  height: 120rpx; /* 设置高度，与宽度相同 */
+  border-radius: 50%; /* 使元素变成圆形 */
+  overflow: hidden; /* 确保子元素不超出圆形边界 */
+  opacity: 0.8;
+  box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.5), 0 6rpx 10rpx rgba(0, 0, 0, 0.3); /* 加深阴影 */
+}
+
+.addRecordPanel{
+  height: 650rpx;
+  width: 500rpx;
+  z-index: 1000;
+}

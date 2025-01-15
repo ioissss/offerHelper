@@ -1,1 +1,3 @@
-/* pages/addRecord/index.wxss */
+page{
+  background-color: #f4f3e8;
+}

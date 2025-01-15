@@ -90,9 +90,79 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
   </van-tab>
 </van-tabs>
 
+<view bind:tap="goto" wx:if="{{active_tab==1}}" class="fixed-top">
+  <van-image
+  width="120rpx"
+  height="120rpx"
+  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
+/>
+</view>
 
-<!-- 底部导航栏 -->
-<!-- <van-tabbar active="{{ active }}" bind:change="onChange">
-  <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-  <van-tabbar-item icon="friends-o">我的</van-tabbar-item>
-</van-tabbar> -->
+
+<!-- 增加记录 -->
+<van-popup z-index = "{{999}}" show="{{ showAddPanel }}" bind:close="onClose">
+    <view class="addRecordPanel">
+      <van-cell-group>
+        <van-field
+          model:value="{{ companyName }}"
+          placeholder="输入公司名称"
+          border="{{ true }}"
+          bind:change="onChange"
+        />
+        <van-field
+          model:value="{{ city }}"
+          placeholder="城市"
+          border="{{ true }}"
+          bind:change="onChange"
+        />
+        <van-field
+          model:value="{{ job }}"
+          placeholder="投递岗位"
+          border="{{ true }}"
+          bind:change="onChange"
+        />
+        <van-field
+          model:value="{{ url }}"
+          placeholder="投递链接：https//..."
+          border="{{ true }}"
+          bind:change="onChange"
+        />
+        <van-field
+          model:value="{{ jobDesc }}"
+          placeholder="岗位描述"
+          border="{{ true }}"
+          bind:change="onChange"
+        />
+
+        <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="2" file-list="{{ fileList }}" bind:after-read="afterRead">
+          <view wx:if="{{fileList.length==0}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;">
+            <van-image
+          width="80rpx"
+          height="80rpx"
+          src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
+          />
+          <view>
+          <text style="color: rgb(121, 118, 115);font-size: 20rpx;">添加图片</text>
+          </view>  
+          </view>
+        </van-uploader>
+
+        <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="2" file-list="{{ fileList }}" bind:after-read="afterRead">
+          <view wx:if="{{fileList.length==0}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;">
+            <van-image
+          width="80rpx"
+          height="80rpx"
+          src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
+          />
+          <view>
+          <text style="color: rgb(121, 118, 115);font-size: 20rpx;">上传简历</text>
+          </view>  
+          </view>
+        </van-uploader>
+
+        <van-cell title="所属行业" value="" is-link />
+        <van-cell title="企业性质" value="" is-link />
+        <van-cell title="公司规模" value="" is-link />
+    </van-cell-group>
+    </view>
+</van-popup>

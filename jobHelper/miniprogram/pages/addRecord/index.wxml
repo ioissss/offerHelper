@@ -1,2 +1,19 @@
-<!--pages/addRecord/index.wxml-->
-<text>pages/addRecord/index.wxml</text>
+<!-- 展示数据：
+1. 公司名称 √
+2. 所属行业 √
+3. 公司规模 √
+4. 企业性质 √
+5. 投递岗位 √
+6. 城市 √
+7. 投递日期 √
+8. 岗位JD 
+9. 投递链接 √
+10. 投递简历
+11. 投递进度 √
+12. 备注 -->
+
+
+
+<i-panel title="圆角输入框">
+    <i-input value="{{ value6 }}" type="number" right title="消费总额" mode="wrapped" placeholder="询问收银员后输入" />
+</i-panel>
