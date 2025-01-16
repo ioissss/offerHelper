@@ -134,7 +134,8 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
           bind:change="onChange"
         />
 
-        <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="2" file-list="{{ fileList }}" bind:after-read="afterRead">
+        <view>
+        <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="1" file-list="{{ fileList }}" bind:after-read="afterRead">
           <view wx:if="{{fileList.length==0}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;">
             <van-image
           width="80rpx"
@@ -146,23 +147,34 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
           </view>  
           </view>
         </van-uploader>
+        </view>
+        
 
-        <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="2" file-list="{{ fileList }}" bind:after-read="afterRead">
-          <view wx:if="{{fileList.length==0}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;">
-            <van-image
-          width="80rpx"
-          height="80rpx"
-          src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
-          />
-          <view>
-          <text style="color: rgb(121, 118, 115);font-size: 20rpx;">上传简历</text>
+        <view style="margin-top: 20rpx;display: flex;flex-direction: column;margin-left: 30rpx;" wx:if="{{resumeFile.length !=0}}">
+<van-image
+  width="80rpx"
+  height="80rpx"
+  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png"
+/>
+<text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{resumeFile.name}}</text>
+</view>
+        <view bind:tap="chooseFileFromMessage" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;" wx:if="{{resumeFile.length==0}}">
+      <van-image
+        width="80rpx"
+        height="80rpx"
+        src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
+      />
+      <view>
+          <text style="color: rgb(121, 118, 115);font-size: 20rpx;">添加简历</text>
           </view>  
-          </view>
-        </van-uploader>
+      </view>
 
         <van-cell title="所属行业" value="" is-link />
         <van-cell title="企业性质" value="" is-link />
         <van-cell title="公司规模" value="" is-link />
+        
+        <button><text style="color: rgb(131, 199, 199);">创建记录</text></button>
+
     </van-cell-group>
     </view>
 </van-popup>
