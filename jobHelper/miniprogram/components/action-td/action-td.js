@@ -19,6 +19,7 @@ Component({
     handleClickItem(e) {
       const { type } = e.currentTarget.dataset;
       const { index, item } = this.data;
+      console.log(item);
       this.triggerEvent('clickaction', {
           value: {
               type,

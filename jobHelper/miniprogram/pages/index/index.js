@@ -15,15 +15,17 @@ Page({
       },
       {
         'title':'类型',
-        'key':'type'
+        'key':'enterpriseNature',
+        'type':'action'
       },
       {
         'title':'岗位',
-        'key':'jobType'
+        'key':'job'
       },
       {
         'title':'状态',
-        'key':'state'
+        'key':'state',
+        'type':'action'
       },
       {
         'title':'城市',
@@ -57,7 +59,7 @@ Page({
     jobDesc:"",
     sector:"", //所属行业
     selectIndex_EN:0,   //企业性质
-    enterpriseNature:"",   //企业性质
+    enterpriseNature:"私企",   //企业性质
     enterpriseNatureList:[
       {id:0,name:"0"},
       {id:1,name:"1"},
@@ -70,13 +72,23 @@ Page({
       {id:2,name:"1000-5000"}
     ],  //公司规模
     selectIndex_CS:0,
-    CompanySize:"",
+    CompanySize:"500人以下",
 
     // 修改
     editorMode:false,
     selectedKeyList:[],
     showSelectBox:false,
 
+    stateList:[
+      {id:0,name:"未投递"},
+      {id:1,name:"已投递"},
+      {id:2,name:"笔试"},
+      {id:3,name:"一面"},
+      {id:4,name:"二面"},
+      {id:5,name:"offer"}
+    ],  //投递状态
+    selectIndex_State:0,
+    state:"未投递",
     // 数据表
     dataList:[]
   },
@@ -101,7 +113,6 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
     const { rowkey } = e.detail; // 获取当前行数据
   },
   handleClickExpand(e) {
-    console.log(e);
     let str = '';
     const { type, index, item } = e.detail.value;
     if (type === 'name') {
@@ -129,19 +140,6 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
       deletable:true
     });
     this.setData({fileList});
-    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-    // wx.uploadFile({
-    //   url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-    //   filePath: file.url,
-    //   name: 'file',
-    //   formData: { user: 'test' },
-    //   success(res) {
-    //     // 上传完成需要更新 fileList
-    //     const { fileList = [] } = this.data;
-    //     fileList.push({ ...file, url: res.data });
-    //     this.setData({ fileList });
-    //   },
-    // });
   },
   deleteImg(event){
     const index = event.detail.index;
@@ -150,23 +148,46 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
     this.setData({fileList});
   },
   ENchange(event){
-    console.log(event);
+    this.data.enterpriseNature = this.data.enterpriseNatureList[event.detail.selectId];
+    this.data.selectIndex_EN = event.detail.selectId;
+  },
+  stateChange(event){
+    this.data.state = this.data.stateList[event.detail.selectId];
+    this.data.selectIndex_State = event.detail.selectId;
+  },
+  companySizeChange(event){
+    this.data.CompanySize = this.data.CompanySizeList[event.detail.selectId];
+    this.data.selectIndex_CS = event.detail.selectId;
   },
   async addRecord(event, successFunc){
-    
+    if(this.data.companyName == ""){
+      wx.showToast({
+        title: '公司名称不能空~',
+        icon:'error'
+      });
+      return;
+    }
     // 内容添加到数据库
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const day = String(today.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
     var record = {
       company:this.data.companyName,
       city:this.data.city,
       detail:this.data.detail,
       jobType:this.data.jobType,
       jobDesc:this.data.jobDesc,
+      job:this.data.job,
       sector:this.data.sector,
-      enterpriseNature:this.data.enterpriseNature,
-      CompanySize:this.data.CompanySize,
+      enterpriseNature:this.data.enterpriseNatureList[this.data.selectIndex_EN],
+      CompanySize:this.data.CompanySizeList[this.data.selectIndex_CS],
+      state:this.data.stateList[this.data.selectIndex_State],
       id:this.data.dataList.length,
       imgFile:"",
-      resumeFile:""
+      resumeFile:"",
+      date:formattedDate
     };
     AddRecord(record,(res)=>{
         // 这里没有触发重新渲染
@@ -215,7 +236,7 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
       UTIL.UploadFile(resumeFile.path, 'resume/' + resumeFile.name + Math.random(), Funcs);
     }
     // 上传图片
-    if(this.data.fileList.length >0){
+    if(this.data.fileList.length > 0){
       var Funcs = {
         'success':(res)=>{
           let imgs = [res.fileID];

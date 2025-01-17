@@ -1,3 +1,5 @@
+<view class="PageContainer">
+
 <!-- 个人信息栏 -->
 <view class="personalInfo">
 <view style="display: flex;justify-content: center;flex-direction: column;margin-left: 40rpx;">
@@ -113,30 +115,35 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
     <view class="addRecordPanel">
       <van-cell-group>
         <van-field
+          label="公司"
           model:value="{{ companyName }}"
           placeholder="输入公司名称"
           border="{{ true }}"
           bind:change="onChange"
         />
         <van-field
+          label="城市"
           model:value="{{ city }}"
           placeholder="城市"
           border="{{ true }}"
           bind:change="onChange"
         />
         <van-field
+          label="岗位"
           model:value="{{ job }}"
           placeholder="投递岗位"
           border="{{ true }}"
           bind:change="onChange"
         />
         <van-field
+          label="链接"
           model:value="{{ url }}"
           placeholder="投递链接：https//..."
           border="{{ true }}"
           bind:change="onChange"
         />
         <van-field
+          label="描述"
           model:value="{{ jobDesc }}"
           placeholder="岗位描述"
           border="{{ true }}"
@@ -178,8 +185,8 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
           </view>  
       </view>
 
-        <!-- 下拉选择框 -->
         <van-field
+          label="行业"
           model:value="{{ sector }}"
           placeholder="所属行业"
           border="{{ true }}"
@@ -188,6 +195,19 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
       
       <view style="margin-top: 20rpx;margin-left: 20rpx;">
       <my_select
+        title="投递状态"
+        bind:tap="chooseSector" 
+        nowId="{{selectIndex_State}}"
+        nameList="{{stateList}}" 
+        nowName="{{state}}" 
+        placeholder="投递状态" 
+        bind:handleChange="stateChange">
+      </my_select>
+      </view>
+
+      <view style="margin-top: 20rpx;margin-left: 20rpx;">
+      <my_select
+        title="企业性质"
         bind:tap="chooseSector" 
         nowId="{{selectIndex_EN}}"
         nameList="{{enterpriseNatureList}}" 
@@ -195,16 +215,17 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
         placeholder="企业性质" 
         bind:handleChange="ENchange">
       </my_select>
-    </view>
+      </view>
 
-      <view style="margin-top: 30rpx;margin-left: 20rpx;">
+      <view style="margin-top: 20rpx;margin-left: 20rpx;">
       <my_select
+        title="企业规模"
         bind:tap="chooseSector" 
         nowId="{{selectIndex_CS}}"
         nameList="{{CompanySizeList}}" 
         nowName="{{CompanySize}}" 
         placeholder="公司规模" 
-        bind:handleChange="ENchange">
+        bind:handleChange="companySizeChange">
       </my_select>
       </view>
         
@@ -228,3 +249,6 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
 
 <!-- 确认弹框 -->
 <van-dialog id="van-dialog" />
+
+
+</view>

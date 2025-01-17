@@ -2,4 +2,10 @@
   <block wx:if="{{columns.key === 'detail'}}">
     <button>></button>
   </block>
+  <block wx:if="{{columns.key === 'state'}}">
+    {{item.state.name}}
+  </block>
+  <block wx:if="{{columns.key === 'enterpriseNature'}}">
+    {{item.enterpriseNature.name}}
+  </block>
 </view>
