@@ -1,5 +1,4 @@
 
-
 export function GetOpenid(){
   return new Promise((resolve, reject)=>{
     // 本地获取
@@ -18,4 +17,20 @@ export function GetOpenid(){
       }
     });
   });
+}
+
+export function UploadFile(file, path, Funcs){
+  wx.cloud.uploadFile({
+    cloudPath:path,
+    filePath:file,
+    config:{
+      env:'findwork-0gd79ch16a9fbc12'
+    },
+    success:res=>{
+      Funcs.success && Funcs.success(res);
+    },
+    fail:error=>{
+      Funcs.fail && Funcs.fail(error);
+    }
+  })
 }

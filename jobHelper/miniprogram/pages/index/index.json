@@ -14,7 +14,8 @@
   "van-cell-group": "@vant/weapp/cell-group/index",
   "van-uploader": "@vant/weapp/uploader/index",
   "van-picker": "@vant/weapp/picker/index",
-  "my_select":"../../components/selector/selector"
+  "my_select":"../../components/selector/selector",
+  "van-dialog": "@vant/weapp/dialog/index"
   },
   "styleIsolation": "apply-shared"
 }

@@ -26,7 +26,6 @@ export function AddUserRecord(userRecord){
       record:userRecord
     },
     success:function(res){
-      console.log(res);
     },
     fail:function(res){
       console.log(res);

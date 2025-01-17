@@ -28,7 +28,7 @@ Page({
       },
     ],
     fileList:[], //图片文件
-    resumeFile:[]
+    resumeFile:[] //简历文件
   },
   // -------------- 点击进度条 -----------------
   onClickStep(e){

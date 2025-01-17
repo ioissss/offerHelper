@@ -19,6 +19,7 @@
   "lazyCodeLoading": "requiredComponents",
   "usingComponents": {
     "van-tabbar": "@vant/weapp/tabbar/index",
-    "van-tabbar-item": "@vant/weapp/tabbar-item/index"
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-toast": "@vant/weapp/toast/index"
   }
 }

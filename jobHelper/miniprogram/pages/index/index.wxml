@@ -80,8 +80,9 @@ duration="{{0.4}}"
     <!-- 操作栏 -->
     <view style="display: flex;flex-direction: row;">
     <van-icon wx:if="{{!editorMode}}" style="margin-left: 30rpx;" bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png" />
+    <van-icon wx:if="{{editorMode}}" style="margin-left: 30rpx;" bind:tap="deleteRecords" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%88%A0%E9%99%A4.png" />
     <van-icon wx:if="{{!editorMode}}" style="margin-left: 30rpx;" bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5.png" />
-    <van-icon style="margin-left: 670rpx;" wx:if="{{editorMode}}" bind:tap="saveEdit" size="65rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%9D%E5%AD%98.png" />
+    <van-icon style="margin-left: 590rpx;" wx:if="{{editorMode}}" bind:tap="saveEdit" size="65rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%9D%E5%AD%98.png" />
     </view>
 
   <!-- 每一行必须有唯一标识符，id，作为rowKey -->
@@ -108,7 +109,7 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
 
 
 <!-- 增加记录 -->
-<van-popup round z-index = "{{999}}" show="{{ showAddPanel }}" bind:close="onClose">
+<van-popup closeable round z-index = "{{999}}" show="{{ showAddPanel }}" bind:close="onClose">
     <view class="addRecordPanel">
       <van-cell-group>
         <van-field
@@ -159,13 +160,13 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
         
 
         <view style="margin-top: 20rpx;display: flex;flex-direction: column;margin-left: 30rpx;" wx:if="{{resumeFile.length !=0}}">
-<van-image
-  width="80rpx"
-  height="80rpx"
-  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png"
-/>
-<text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{resumeFile.name}}</text>
-</view>
+      <van-image
+        width="80rpx"
+        height="80rpx"
+        src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png"
+      />
+      <text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{resumeFile.name}}</text>
+      </view>
         <view bind:tap="chooseFileFromMessage" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;" wx:if="{{resumeFile.length==0}}">
       <van-image
         width="80rpx"
@@ -225,4 +226,5 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
 
 </van-popup>
 
-
+<!-- 确认弹框 -->
+<van-dialog id="van-dialog" />

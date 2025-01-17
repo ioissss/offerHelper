@@ -66,4 +66,5 @@ flex-direction: row;
   height: 750rpx;
   width: 500rpx;
   z-index: 1000;
+  margin-top: 80rpx;
 }

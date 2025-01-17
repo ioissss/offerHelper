@@ -1,6 +1,8 @@
 import {GetUserRecord,AddUserRecord,AddRecord,DeleteRecords} from '../../utils/db.js'
 import {GetOpenID} from '../../utils/Login.js'
-const LOGIN = require("../../utils/Login")
+const LOGIN = require("../../utils/Login");
+const UTIL = require('../../utils/utils')
+import Dialog from '@vant/weapp/dialog/dialog';
 // pages/index/index.js
 Page({
 
@@ -48,7 +50,7 @@ Page({
     showAddPanel:false,
     companyName:"",
     fileList:[],
-    resumeFile:[],
+    resumeFile:"",
     city:"",
     job:"",
     url:"",
@@ -150,7 +152,8 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
   ENchange(event){
     console.log(event);
   },
-  addRecord(event, successFunc){
+  async addRecord(event, successFunc){
+    
     // 内容添加到数据库
     var record = {
       company:this.data.companyName,
@@ -161,7 +164,9 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
       sector:this.data.sector,
       enterpriseNature:this.data.enterpriseNature,
       CompanySize:this.data.CompanySize,
-      id:this.data.dataList.length
+      id:this.data.dataList.length,
+      imgFile:"",
+      resumeFile:""
     };
     AddRecord(record,(res)=>{
         // 这里没有触发重新渲染
@@ -169,10 +174,78 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
         this.setData({
           dataList:newList
         });
+        // 重置之前的记录
+        this.data.companyName="";
+        this.data.city="";
+        this.data.detail="";
+        this.data.jobType="";
+        this.data.jobDesc="";
+        this.data.sector="";
+        this.data.enterpriseNature="";
+        this.data.CompanySize="";
+        this.data.fileList=[];
+        this.data.resumeFile=[];
     });
     this.setData({showAddPanel:false});
-  },
 
+    // 上传文件，获取url
+    const openid = await UTIL.GetOpenid();
+    const resumeFile = this.data.resumeFile;
+    if(resumeFile != ""){
+      var Funcs = {
+        'success':(res)=>{
+          // 更新相应字段
+          const db = wx.cloud.database();
+          db.collection('records').where({
+            '_openid':openid,
+            'record.id':record.id,
+          }).update({
+            data:{
+              'record.$.resumeFile.path':res.fileID
+            }
+          })
+        },
+        'fail':(error)=>{
+          wx.showToast({
+            title: '上传简历文件失败',
+            icon:'error'
+          });
+        }
+      }
+      UTIL.UploadFile(resumeFile.path, 'resume/' + resumeFile.name + Math.random(), Funcs);
+    }
+    // 上传图片
+    if(this.data.fileList.length >0){
+      var Funcs = {
+        'success':(res)=>{
+          let imgs = [res.fileID];
+          // 更新相应字段
+          const db = wx.cloud.database();
+          db.collection('records').where({
+            '_openid':openid,
+            'record.id':record.id,
+          }).update({
+            data:{
+              'record.$.imgFile':imgs
+            }
+          })
+        },
+        'fail':(error)=>{
+          wx.showToast({
+            title: '上传图片失败',
+            icon:'error'
+          });
+        }
+      }
+      UTIL.UploadFile(this.data.fileList[0].url, 'image/' + Math.random(), Funcs);
+    }
+  },
+  addRecordToDB(resumeFile,imageURL){
+
+  },
+  onClose(event){
+    this.setData({showAddPanel:false});
+  },
   // 选中记录
   checkKey(event){
     this.data.selectedKeyList = event.detail.value;
@@ -181,20 +254,21 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
   deleteRecords(){
     if(this.data.selectedKeyList.length == 0)
       return;
-    
-    DeleteRecords(this.data.selectedKeyList,(res)=>{
-      let newList = this.data.dataList.filter(item => !this.data.selectedKeyList.includes(item['id']));
-      this.setData({selectedKeyList:[],dataList:newList});
+    Dialog.confirm({
+      title:'删除',
+      message:'确认删除对应记录'
+    }).then(()=>{
+      DeleteRecords(this.data.selectedKeyList,(res)=>{
+        let newList = this.data.dataList.filter(item => !this.data.selectedKeyList.includes(item['id']));
+        this.setData({selectedKeyList:[],dataList:newList});
+      });
     });
   },
   enterEditorMode(event){
     this.setData({showSelectBox:true, editorMode:true});
   },
   saveEdit(event){
-    // 保存删除操作
-    this.deleteRecords();
     // 保存换位操作
-
     this.setData({showSelectBox:false,editorMode:false});
   },
   
@@ -208,7 +282,6 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
     return supportedDocumentTypes.includes(fileExtension);
   },
   chooseFileFromMessage(){
-    console.log("选择文件");
     wx.chooseMessageFile({
       count: 1,
       success:(e)=>{
