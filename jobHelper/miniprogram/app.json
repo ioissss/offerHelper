@@ -5,7 +5,8 @@
     "pages/Mine/Mine",
     "components/tabs/tabs",
     "pages/detail/detail",
-    "pages/addRecord/index"
+    "pages/addRecord/index",
+    "components/selector/selector"
   ],
   "window": {
     "backgroundColor": "#f4f3e8",

@@ -63,7 +63,7 @@ flex-direction: row;
 }
 
 .addRecordPanel{
-  height: 650rpx;
+  height: 750rpx;
   width: 500rpx;
   z-index: 1000;
 }

@@ -1,4 +1,4 @@
-import {GetUserRecord,AddUserRecord} from '../../utils/db.js'
+import {GetUserRecord,AddUserRecord,AddRecord,DeleteRecords} from '../../utils/db.js'
 import {GetOpenID} from '../../utils/Login.js'
 const LOGIN = require("../../utils/Login")
 // pages/index/index.js
@@ -44,6 +44,7 @@ Page({
     active_tab:1,
 
     // 增加记录
+    showAddButton:true,
     showAddPanel:false,
     companyName:"",
     fileList:[],
@@ -53,6 +54,29 @@ Page({
     url:"",
     jobDesc:"",
     sector:"", //所属行业
+    selectIndex_EN:0,   //企业性质
+    enterpriseNature:"",   //企业性质
+    enterpriseNatureList:[
+      {id:0,name:"0"},
+      {id:1,name:"1"},
+      {id:2,name:"2"}
+    ],  //企业性质
+
+    CompanySizeList:[
+      {id:0,name:"500以下"},
+      {id:1,name:"500-1000"},
+      {id:2,name:"1000-5000"}
+    ],  //公司规模
+    selectIndex_CS:0,
+    CompanySize:"",
+
+    // 修改
+    editorMode:false,
+    selectedKeyList:[],
+    showSelectBox:false,
+
+    // 数据表
+    dataList:[]
   },
 
 // ----------- tab -------------
@@ -68,9 +92,6 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
   // ---------------- 自定义方法 ----------------
   onChange(event){
     this.setData({active:event.detail});
-  },
-  changeRows(){
-
   },
   handleRowLongPress(e) {
     if(!('rowkey' in e.detail))
@@ -125,6 +146,56 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
     var fileList = this.data.fileList;
     fileList.splice(index,1);
     this.setData({fileList});
+  },
+  ENchange(event){
+    console.log(event);
+  },
+  addRecord(event, successFunc){
+    // 内容添加到数据库
+    var record = {
+      company:this.data.companyName,
+      city:this.data.city,
+      detail:this.data.detail,
+      jobType:this.data.jobType,
+      jobDesc:this.data.jobDesc,
+      sector:this.data.sector,
+      enterpriseNature:this.data.enterpriseNature,
+      CompanySize:this.data.CompanySize,
+      id:this.data.dataList.length
+    };
+    AddRecord(record,(res)=>{
+        // 这里没有触发重新渲染
+        let newList = [...this.data.dataList, record];
+        this.setData({
+          dataList:newList
+        });
+    });
+    this.setData({showAddPanel:false});
+  },
+
+  // 选中记录
+  checkKey(event){
+    this.data.selectedKeyList = event.detail.value;
+  },
+  // 删除记录
+  deleteRecords(){
+    if(this.data.selectedKeyList.length == 0)
+      return;
+    
+    DeleteRecords(this.data.selectedKeyList,(res)=>{
+      let newList = this.data.dataList.filter(item => !this.data.selectedKeyList.includes(item['id']));
+      this.setData({selectedKeyList:[],dataList:newList});
+    });
+  },
+  enterEditorMode(event){
+    this.setData({showSelectBox:true, editorMode:true});
+  },
+  saveEdit(event){
+    // 保存删除操作
+    this.deleteRecords();
+    // 保存换位操作
+
+    this.setData({showSelectBox:false,editorMode:false});
   },
   
   // --------------- 上传文件 -----------------

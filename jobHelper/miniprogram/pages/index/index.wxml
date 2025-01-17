@@ -77,9 +77,17 @@ duration="{{0.4}}"
   </van-tab>
 
   <van-tab key="tab2" title="我的投递" name="b">
+    <!-- 操作栏 -->
+    <view style="display: flex;flex-direction: row;">
+    <van-icon wx:if="{{!editorMode}}" style="margin-left: 30rpx;" bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png" />
+    <van-icon wx:if="{{!editorMode}}" style="margin-left: 30rpx;" bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5.png" />
+    <van-icon style="margin-left: 670rpx;" wx:if="{{editorMode}}" bind:tap="saveEdit" size="65rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%9D%E5%AD%98.png" />
+    </view>
+
   <!-- 每一行必须有唯一标识符，id，作为rowKey -->
 <table
-select="{{false}}"
+select="{{showSelectBox}}"
+bindcheckkey="checkKey"
 generic:action-td="action-td"
 isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:expand-component="expand-component" bindclickexpand="handleClickExpand"
  tableHeight="{{1200}}" rowKey = "id" bindlongpress = "handleRowLongPress" columns = "{{columns}}" dataList = "{{dataList}}" getListLoading="{{isLoadingData}}" showTipImage="{{false}}">
@@ -90,7 +98,7 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
   </van-tab>
 </van-tabs>
 
-<view bind:tap="goto" wx:if="{{active_tab==1}}" class="fixed-top">
+<view bind:tap="goto" wx:if="{{active_tab==1&&!(editorMode)}}" class="fixed-top">
   <van-image
   width="120rpx"
   height="120rpx"
@@ -100,7 +108,7 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
 
 
 <!-- 增加记录 -->
-<van-popup z-index = "{{999}}" show="{{ showAddPanel }}" bind:close="onClose">
+<van-popup round z-index = "{{999}}" show="{{ showAddPanel }}" bind:close="onClose">
     <view class="addRecordPanel">
       <van-cell-group>
         <van-field
@@ -169,12 +177,52 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
           </view>  
       </view>
 
-        <van-cell title="所属行业" value="" is-link />
-        <van-cell title="企业性质" value="" is-link />
-        <van-cell title="公司规模" value="" is-link />
+        <!-- 下拉选择框 -->
+        <van-field
+          model:value="{{ sector }}"
+          placeholder="所属行业"
+          border="{{ true }}"
+          bind:change="onChange"
+        />
+      
+      <view style="margin-top: 20rpx;margin-left: 20rpx;">
+      <my_select
+        bind:tap="chooseSector" 
+        nowId="{{selectIndex_EN}}"
+        nameList="{{enterpriseNatureList}}" 
+        nowName="{{enterpriseNature}}" 
+        placeholder="企业性质" 
+        bind:handleChange="ENchange">
+      </my_select>
+    </view>
+
+      <view style="margin-top: 30rpx;margin-left: 20rpx;">
+      <my_select
+        bind:tap="chooseSector" 
+        nowId="{{selectIndex_CS}}"
+        nameList="{{CompanySizeList}}" 
+        nowName="{{CompanySize}}" 
+        placeholder="公司规模" 
+        bind:handleChange="ENchange">
+      </my_select>
+      </view>
         
-        <button><text style="color: rgb(131, 199, 199);">创建记录</text></button>
+      <van-cell-group>
+      <van-field
+        value="{{ message }}"
+        label="备注"
+        type="textarea"
+        placeholder="请输入备注"
+        autosize
+        border="{{ false }}"
+      />
+      </van-cell-group>
+
+        <button bind:tap="addRecord"><text style="color: rgb(131, 199, 199);">创建记录</text></button>
 
     </van-cell-group>
     </view>
+
 </van-popup>
+
+
