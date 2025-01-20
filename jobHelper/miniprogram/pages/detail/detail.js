@@ -1,4 +1,6 @@
 // pages/detail/detail.js
+
+import Dialog from '@vant/weapp/dialog/dialog';
 Page({
 
   data: {
@@ -28,7 +30,12 @@ Page({
       },
     ],
     fileList:[], //图片文件
-    resumeFile:[] //简历文件
+    resumeFile:[], //简历文件
+    editMode:false,
+    showMessagePanel:false,
+    MessageTitle:"",
+    placeholder:"",
+    message:""
   },
   // -------------- 点击进度条 -----------------
   onClickStep(e){
@@ -111,13 +118,53 @@ Page({
     this.setData({fileList});
   },
 
+  // ----------------- 进入编辑模式 -----------------
+  enterEditorMode(){
+    this.setData({editMode:true});
+  },
+
+  saveEdit(){
+    // 上传数据
+  },
+
+  ModifyCompanyName(){
+    this.setData({
+      MessageTitle:"公司名称",
+      placeholder:"请输入公司名",
+      message:this.data.record.company,
+      showMessagePanel:true
+    })
+  },
+  ModifyCompanyURL(){
+    this.setData({
+      MessageTitle:"投递链接",
+      placeholder:"请输入链接",
+      message:this.data.record.url,
+      showMessagePanel:true
+    })
+  },
+
+  confirmMessage(){
+    // 修改数据
+    if(this.data.MessageTitle === "公司名称"){
+      this.setData({'record.company':this.data.message});
+    }
+    else if(this.data.MessageTitle === "投递链接"){
+      this.setData({'record.url':this.data.message});
+    }
+    this.data.message="";
+    this.data.MessageTitle="";
+    this.data.placeholder="";
+    this.data.showMessagePanel = false;
+  },
+
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     var data = JSON.parse(options.data);
-    this.setData({data});
+    this.setData({record:data});
   },
 
   /**

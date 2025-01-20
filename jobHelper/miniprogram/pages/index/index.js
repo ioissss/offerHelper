@@ -187,7 +187,8 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
       id:this.data.dataList.length,
       imgFile:"",
       resumeFile:"",
-      date:formattedDate
+      date:formattedDate,
+      url:this.data.url
     };
     AddRecord(record,(res)=>{
         // 这里没有触发重新渲染

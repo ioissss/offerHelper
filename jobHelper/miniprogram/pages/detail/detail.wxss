@@ -1,6 +1,12 @@
 /* pages/detail/detail.wxss */
 page{
   background-color: #f4f3e8;
+  background-image: url('https://gitee.com/xing-xi-zhang/111/raw/master/747ea07021ce0abcd056deef55855de.jpg'); /* 背景图片路径 */
+  background-size: cover; /* 背景图尺寸适配 */
+  background-position: center; /* 背景图位置 */
+  background-repeat: no-repeat; /* 不重复背景图 */
+  width: 100%;
+  height: 100%;
 }
 
 .card{
@@ -8,7 +14,7 @@ page{
   width: 90%;
   margin-left: 5%;
   height: 420rpx;
-  background: #dde6e3;
+  background: #c1f3e2;
   border-radius: 30rpx;
   box-shadow: 5px 5px 5px #cdcfcf;
  }
@@ -29,6 +35,16 @@ page{
   margin: 8px 0; /* 上下边距 */
 }
 
-#tab1{
-  
+.fixed-top {
+  position: fixed; /* 固定在屏幕上 */
+  top: 1250rpx; /* 距离屏幕顶部 0 */
+  left: 580rpx; /* 距离屏幕左侧 0 */
+  z-index: 9999; /* 确保位于最上层 */
+  background-color: transparent; /* 背景透明（可根据需要调整） */
+  width: 120rpx; /* 设置宽度 */
+  height: 120rpx; /* 设置高度，与宽度相同 */
+  border-radius: 50%; /* 使元素变成圆形 */
+  overflow: hidden; /* 确保子元素不超出圆形边界 */
+  opacity: 0.8;
+  box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.5), 0 6rpx 10rpx rgba(0, 0, 0, 0.3); /* 加深阴影 */
 }

@@ -216,7 +216,6 @@ Component({
             });
         },
         handleClickExpand(e) {
-            console.log("展开");
             this.triggerEvent('clickexpand', {
                 value: e.detail.value
             });
