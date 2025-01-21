@@ -331,8 +331,25 @@ Page({
    */
   onLoad(options) {
     var data = JSON.parse(options.data);
-    DB.GetOneRecord(data.id,(res)=>{});
+    // 重新读取
+    DB.GetOneRecord(data.id,(res)=>{
+      for(var i = 0;i<res.length;++i)
+        if(res[i].id === data.id)
+          this.setData({record:res[i]});
+    });
     this.setData({record:data});
+    // 将图片转换成url
+    wx.cloud.downloadFile({
+      fileID:this.data.record.imgFile[0],
+      success(res){
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success(res){
+            console.log(res);
+          }
+        })
+      }
+    })
   },
 
   /**

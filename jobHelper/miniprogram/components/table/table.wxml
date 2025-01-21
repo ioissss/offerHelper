@@ -1,5 +1,5 @@
 <wxs src="./table.wxs" module="table" />
-<view class="list" style="heigth:{{tableHeight}}">
+<view class="list" style="height:{{tableHeight}};opacity: 0.8;">
   <scroll-view class="table-header" scroll-x="{{scrollX}}" bindscroll="handleScroll" bindtouchstart="handleTouchStart" bindtouchend="handleTouchEnd" data-tag="header" scroll-left="{{scrollLeftHeader}}">
 
     <view class="inline-block" style="background-color: #f4f3e8;">

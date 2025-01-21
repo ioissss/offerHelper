@@ -26,6 +26,10 @@ export function AddUserRecord(userRecord){
       record:userRecord
     },
     success:function(res){
+      wx.showToast({
+        title: '用户创建成功',
+        icon:'none'
+      })
     },
     fail:function(res){
       console.log(res);
@@ -55,10 +59,6 @@ export function AddRecord(record, successFunc){
     },
     success:function(res){
       successFunc(res);
-      wx.showToast({
-        title: '上传成功',
-        icon:'success'
-      });
     },
     fail:function(res){
       wx.showToast({
@@ -145,11 +145,9 @@ export async function GetOneRecord(id, successFunc){
   const _ = db.command;
   db.collection('records').where({
     '_openid':openID,
-    'record.id':id
   }).get({
     success:function(res){
-      console.log(res);
-      successFunc(res);
+      successFunc(res.data[0].record);
     },
     fail:function(error){
       wx.showToast({
