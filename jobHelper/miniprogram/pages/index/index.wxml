@@ -188,7 +188,7 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
         <van-field
           label="行业"
           model:value="{{ sector }}"
-          placeholder="所属行业"
+          placeholder="公司所属行业"
           border="{{ true }}"
           bind:change="onChange"
         />

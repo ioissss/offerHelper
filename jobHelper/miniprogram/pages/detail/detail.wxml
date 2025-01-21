@@ -14,97 +14,83 @@
 
 <!-- 公司信息 -->
 <view class="card">
- 
-<view class="CompanyInfo">
-  <text bind:tap="ModifyCompanyName" style="margin-left: 20rpx;font-weight: 750;font-size: 40rpx;">{{record.company}}</text>
-  <view style="display: flex;flex-direction: row; align-items: center;margin-left: 300rpx;">
-    <van-icon size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%85%B6%E4%BB%96%E4%BA%BA%E5%91%98.png" />
-    <text style="font-size: 30rpx;color: #5f5d5d;">{{record.CompanySize.name}}</text>
+
+  <view class="CompanyInfo">
+    <text bind:tap="ModifyCompanyName" style="margin-left: 20rpx;font-weight: 750;font-size: 40rpx;">{{record.company}}</text>
+    <view style="display: flex;flex-direction: row; align-items: center;margin-left: 300rpx;">
+      <van-icon size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%85%B6%E4%BB%96%E4%BA%BA%E5%91%98.png" />
+      <text bind:tap="clickOnCompanySize" style="font-size: 30rpx;color: #5f5d5d;">{{record.CompanySize.name}}</text>
+    </view>
   </view>
+
+  <view class="dashed-line" style="position: relative; left: 17rpx; top: -16rpx"></view>
+
+  <!-- 标签 -->
+  <view style="margin-left: 20rpx;">
+    <block>
+      <van-tag size="medium" color="#f2826a">{{}}</van-tag>
+    </block>
+    <van-tag bind:tap="clickOnCompanyNature" style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.enterpriseNature.name}}</van-tag>
+    <van-tag bind:tap="ModifyCity" style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.city}}</van-tag>
+  </view>
+
+  <view style="margin-left: 20rpx;display: flex;flex-direction: column;margin-top: 15rpx;">
+    <text style="font-size: 20rpx;color: rgb(133, 119, 119);">投递日期 : {{record.date}}</text>
+    <text bind:tap="ModifyCompanyURL" selectable="true" style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递链接 : {{record.url}}</text>
+    <text bind:tap="ModifyJobDesc" style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递岗位 : {{record.job}}</text>
+  </view>
+
+  <view style=" margin-left: 35rpx;margin-top: 10rpx;width: 90%;">
+    <van-steps bind:click-step="onClickStep" steps="{{ steps }}" active="{{ active }}" active-color="#29f07f" />
+  </view>
+
 </view>
 
-<view class="dashed-line" style="position: relative; left: 17rpx; top: -16rpx"></view>
-
-<!-- 标签 -->
-<view style="margin-left: 20rpx;">
-<block>
-  <van-tag size="medium" color="#f2826a">{{}}</van-tag>
-</block>
-  <van-tag style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.enterpriseNature.name}}</van-tag>
-  <van-tag style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.city}}</van-tag>
-</view>
-
-<view style="margin-left: 20rpx;display: flex;flex-direction: column;margin-top: 15rpx;">
-<text style="font-size: 20rpx;color: rgb(133, 119, 119);">投递日期 : {{record.date}}</text>
-<text bind:tap="ModifyCompanyURL" selectable="true" style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递链接 : {{record.url}}</text>
-<text bind:tap="ModifyJobDesc" style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递岗位 : {{record.job}}</text>
-</view>
-
-<view style=" margin-left: 35rpx;margin-top: 10rpx;width: 90%;">
-<van-steps
-  bind:click-step="onClickStep"
-  steps="{{ steps }}"
-  active="{{ active }}"
-  active-color="#29f07f"
-/>
-</view>
-
-</view>  
-
+<!-- 上传文件 -->
 <van-divider />
-
 <view>
 
-<view style="margin-left: 40rpx;"><text style="font-size: 35rpx;font-weight: 750;">岗位描述</text></view>
-<view style="margin-left: 120rpx;margin-top: 20rpx;width: 70%;">
- <view>
-  <text bind:tap="ModifyJobDesc" style="color: rgb(133, 119, 119);">{{record.jobDesc}}</text>
-</view>
-  <!-- 最大上传100KB字节 -->
-  <view style="margin-top: 25rpx;">
-  <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="2" file-list="{{ fileList }}" bind:after-read="afterRead">
-  <view wx:if="{{fileList.length==0}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 470rpx;">
-    <van-image
-  width="120rpx"
-  height="120rpx"
-  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
-/>
-</view>
-  </van-uploader>
-</view>
-</view>
+  <view style="margin-left: 40rpx;"><text style="font-size: 35rpx;font-weight: 750;">岗位描述</text></view>
+  <view style="margin-left: 120rpx;margin-top: 20rpx;width: 70%;">
+    <view>
+      <text bind:tap="ModifyJobDesc" style="color: rgb(133, 119, 119);">{{record.jobDesc}}</text>
+    </view>
+    <!-- 最大上传100KB字节 -->
+    <view style="margin-top: 25rpx;">
+      <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ editMode }}" max-count="1" file-list="{{ record.imgFile }}" bind:after-read="afterRead">
+        <view wx:if="{{record.imgFile.length == 0 && editMode}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 470rpx;">
+          <van-image width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png" />
+        </view>
+      </van-uploader>
+    </view>
+  </view>
 
-<van-divider />
+  <van-divider />
 
-<view style="margin-left: 40rpx;">
-<view>
-<text style="font-size: 35rpx;font-weight: 750;">简历</text>
-</view>
-<view style="margin-top: 20rpx;display: flex;flex-direction: column;margin-left: 70rpx;" wx:if="{{resumeFile.length !=0}}">
-<van-image
-  width="120rpx"
-  height="120rpx"
-  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png"
-/>
-<text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{resumeFile.name}}</text>
-</view>
-<view bind:tap="chooseFileFromMessage" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 550rpx;" wx:if="{{resumeFile.length==0}}">
-<van-image
-  width="120rpx"
-  height="120rpx"
-  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
-/>
-</view>
-</view>
+  <view style="margin-left: 40rpx;">
+    <view>
+      <text style="font-size: 35rpx;font-weight: 750;">简历</text>
+    </view>
+    <view style="margin-top: 20rpx;display: flex;flex-direction: column;margin-left: 70rpx;position: relative;width: 150rpx;" wx:if="{{record.resumeFile.path !== ''}}">
+      <view wx:if="{{editMode}}" style="position: absolute; top: 0; right: 0;z-index: 999;">
+        <van-image bind:tap="deleteResumeFile" width="50rpx" height="50rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%88%A0%E9%99%A4%20(1).png" />
+      </view>
+      <van-image width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png" />
+      <text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{record.resumeFile.name}}</text>
+    </view>
+    <view bind:tap="chooseFileFromMessage" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 550rpx;" wx:if="{{record.resumeFile.path === '' && editMode}}">
+      <van-image width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png" />
+    </view>
+  </view>
 
-<view style="margin-left: 40rpx;margin-top: 20rpx;"><text style="font-size: 35rpx;font-weight: 750;">备注</text></view>
-<view style="margin-left: 120rpx;margin-top: 20rpx;width: 70%;">
-  <text bind:tap="ModifyNote" style="color: rgb(133, 119, 119);">{{record.note}}</text>
-</view>
+  <view style="margin-left: 40rpx;margin-top: 20rpx;"><text style="font-size: 35rpx;font-weight: 750;">备注</text></view>
+  <view style="margin-left: 120rpx;margin-top: 20rpx;width: 70%;">
+    <text bind:tap="ModifyNote" style="color: rgb(133, 119, 119);">{{record.note}}</text>
+  </view>
 
 
 
-<van-divider />
+  <van-divider />
 
 </view>
 <van-divider />
@@ -112,36 +98,22 @@
 
 <!-- 悬浮修改框 -->
 <view wx:if="{{!editMode}}" bind:tap="enterEditorMode" class="fixed-top">
-  <van-image
-  width="80rpx"
-  height="80rpx"
-  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png"
-/>
+  <van-image width="80rpx" height="80rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png" />
 </view>
 
 <!-- 悬浮保存框 -->
 <view bind:tap="saveEdit" wx:if="{{editMode}}" class="fixed-top">
-  <van-image
-  width="80rpx"
-  height="80rpx"
-  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%9D%E5%AD%98.png"
-/>
+  <van-image width="80rpx" height="80rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%9D%E5%AD%98.png" />
 </view>
 
-<van-dialog
-  use-slot
-  title="{{MessageTitle}}"
-  show="{{ showMessagePanel }}"
-  show-cancel-button
-  bind:confirm="confirmMessage"
->
-<van-cell-group>
-  <van-field
-    type="textarea"
-    autosize
-    placeholder="{{placeholder}}"
-    border="{{ false }}"
-    model:value="{{message}}"
-  />
-</van-cell-group>
+<van-dialog use-slot title="{{MessageTitle}}" show="{{ showMessagePanel }}" show-cancel-button bind:confirm="confirmMessage">
+  <van-cell-group>
+    <van-field type="textarea" autosize placeholder="{{placeholder}}" border="{{ false }}" model:value="{{message}}" />
+  </van-cell-group>
 </van-dialog>
+
+<van-popup show="{{ showSelector }}" bind:close="onClose">
+  <view style="height:700rpx;width:600rpx;">
+  <van-picker show-toolbar title="{{pickerTitle}}" columns="{{ pickerColumns }}" bind:cancel="onPickerCancel" bind:confirm="onPickerConfirm" />
+</view>
+</van-popup>

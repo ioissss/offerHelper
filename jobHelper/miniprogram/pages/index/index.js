@@ -188,12 +188,13 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
       CompanySize:this.data.CompanySizeList[this.data.selectIndex_CS],
       state:this.data.stateList[this.data.selectIndex_State],
       id:this.data.dataList.length,
-      imgFile:"",
-      resumeFile:"",
+      imgFile:[],
+      resumeFile:{'name':"",'path':""},
       date:formattedDate,
       url:this.data.url,
       note:this.data.note
     };
+    const index = this.data.dataList.length;
     AddRecord(record,(res)=>{
         // 这里没有触发重新渲染
         let newList = [...this.data.dataList, record];
@@ -214,7 +215,6 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
         this.data.note = "无"
     });
     this.setData({showAddPanel:false});
-
     // 上传文件，获取url
     const openid = await UTIL.GetOpenid();
     const resumeFile = this.data.resumeFile;
@@ -243,6 +243,7 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
     }
     // 上传图片
     if(this.data.fileList.length > 0){
+      var that = this;
       var Funcs = {
         'success':(res)=>{
           let imgs = [res.fileID];
@@ -255,7 +256,8 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
             data:{
               'record.$.imgFile':imgs
             }
-          })
+          });
+          that.data.dataList[index].imgFile = imgs;
         },
         'fail':(error)=>{
           wx.showToast({

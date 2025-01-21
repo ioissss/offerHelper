@@ -1,7 +1,8 @@
 // pages/detail/detail.js
 
 import Dialog from '@vant/weapp/dialog/dialog';
-const DB = require("../../utils/db")
+const DB = require("../../utils/db");
+const UTIL = require("../../utils/utils");
 
 Page({
 
@@ -32,12 +33,31 @@ Page({
       },
     ],
     fileList:[], //图片文件
-    resumeFile:[], //简历文件
     editMode:false,
     showMessagePanel:false,
     MessageTitle:"",
     placeholder:"",
-    message:""
+    message:"",
+    // 判断是否需要上传新文件
+    newResumeFile:false,
+    newImgFile:false,
+
+    // 选择器
+    pickerColumns:[],
+    pickerTitle:"选择",
+    showSelector:false,
+
+    // 公司规模
+    CompanySizeList:[
+      "500以下",
+      "500-1000",
+      "1000-5000"
+    ],  //公司规模
+
+    // 企业性质
+    enterpriseNatureList:[
+      "私企","国企"
+    ],  //企业性质
   },
   // -------------- 点击进度条 -----------------
   onClickStep(e){
@@ -48,7 +68,31 @@ Page({
   },
 
   // --------------- 弹出框框 -------------------
+  onPickerCancel(e){
+    this.setData({showSelector:false});
+  },
+  onPickerConfirm(e){
+    if(this.data.pickerTitle === "公司规模")
+      this.data.record.CompanySize.name = e.detail.value;
+    else if(this.data.pickerTitle === "公司性质")
+      this.data.record.enterpriseNature.name = e.detail.value;
 
+    this.data.pickerTitle="";
+    this.data.pickerColumns=[];
+    this.setData({showSelector:false});
+  },
+  clickOnCompanySize(e){
+    if(!this.data.editMode)
+      return;
+    this.data.pickerTitle="公司规模";
+    this.setData({showSelector:true, pickerColumns:this.data.CompanySizeList});
+  },
+  clickOnCompanyNature(e){
+    if(!this.data.editMode)
+      return;
+    this.data.pickerTitle = "公司性质";
+    this.setData({showSelector:true, pickerColumns:this.data.enterpriseNatureList});
+  },
   // --------------- 上传文件 -----------------
   isDocument(file) {
     // 获取文件路径的后缀名
@@ -58,6 +102,7 @@ Page({
     // 判断文件类型是否在支持的文档类型中
     return supportedDocumentTypes.includes(fileExtension);
   },
+  // 从聊天选择文件
   chooseFileFromMessage(){
     wx.chooseMessageFile({
       count: 1,
@@ -77,7 +122,7 @@ Page({
           name:filename,
           path:filePath
         };
-        this.setData({resumeFile});
+        this.setData({'record.resumeFile':resumeFile, newResumeFile:true});
       },
       fail:(e)=>{
         wx.showToast({
@@ -85,14 +130,33 @@ Page({
           icon:'error'
         })
       }
-    })
+    });
   },
-
+  // 删除简历文件
+  deleteResumeFile(){
+    // 从存储中删除文件
+    wx.cloud.deleteFile({
+      fileList:[this.data.record.resumeFile.path],
+      success: res=>{
+        wx.showToast({
+          title: '删除成功',
+          icon:'none'
+        });
+      },
+      fail:error=>{
+      }
+    })
+    // 置空
+    let resumeFile = {
+      'name':"",
+      'path':""
+    }
+    this.setData({'record.resumeFile':resumeFile});
+  },
 
   // ---------------- 上传岗位描述-图片 -----------------
   afterRead(event) {
     const { file } = event.detail;
-    console.log(file);
     var fileList = [];
     fileList.push({
       url:file.url,
@@ -100,26 +164,13 @@ Page({
       isImage:true,
       deletable:true
     });
-    this.setData({fileList});
-    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-    // wx.uploadFile({
-    //   url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-    //   filePath: file.url,
-    //   name: 'file',
-    //   formData: { user: 'test' },
-    //   success(res) {
-    //     // 上传完成需要更新 fileList
-    //     const { fileList = [] } = this.data;
-    //     fileList.push({ ...file, url: res.data });
-    //     this.setData({ fileList });
-    //   },
-    // });
+    this.setData({'record.imgFile':fileList, newImgFile:true});
   },
   deleteImg(event){
     const index = event.detail.index;
-    var fileList = this.data.fileList;
+    var fileList = this.data.record.imgFile;
     fileList.splice(index,1);
-    this.setData({fileList});
+    this.setData({'record.imgFile':fileList});
   },
 
   // ----------------- 进入编辑模式 -----------------
@@ -127,10 +178,61 @@ Page({
     this.setData({editMode:true});
   },
 
-  saveEdit(event){
+  async saveEdit(event){
     // 上传数据
-    DB.UpdateOneRecord(this.data.record);
-    this.setData({editMode:false});
+    DB.UpdateOneRecord(this.data.record,()=>{});
+    // 上传文件
+    const openid = await UTIL.GetOpenid();
+    // 上传简历
+    if(this.data.newResumeFile){
+      var Funcs = {
+        'success':(res)=>{
+          // 更新相应字段
+          const db = wx.cloud.database();
+          db.collection('records').where({
+            '_openid':openid,
+            'record.id':this.data.record.id,
+          }).update({
+            data:{
+              'record.$.resumeFile.path':res.fileID
+            }
+          })
+        },
+        'fail':(error)=>{
+          wx.showToast({
+            title: '上传简历文件失败',
+            icon:'error'
+          });
+        }
+      }
+      UTIL.UploadFile(this.data.record.resumeFile.path, 'resume/' + this.data.record.resumeFile.name + Math.random(), Funcs);
+    }
+    // 上传图片
+    if(this.data.newImgFile){
+      var Funcs = {
+        'success':(res)=>{
+          let imgs = [res.fileID];
+          // 更新相应字段
+          const db = wx.cloud.database();
+          db.collection('records').where({
+            '_openid':openid,
+            'record.id':this.data.record.id,
+          }).update({
+            data:{
+              'record.$.imgFile':imgs
+            }
+          })
+        },
+        'fail':(error)=>{
+          wx.showToast({
+            title: '上传图片失败',
+            icon:'error'
+          });
+        }
+      };
+      UTIL.UploadFile(this.data.record.imgFile[0].url, 'image/' + Math.random(), Funcs);
+    }
+    this.setData({editMode:false, newImgFile:false, newResumeFile:false});
   },
 
   ModifyCompanyName(){
@@ -187,6 +289,17 @@ Page({
     });
   },
 
+  ModifyCity(){
+    if(!this.data.editMode)
+      return;
+    this.setData({
+      MessageTitle:"城市",
+      placeholder:"请输入城市",
+      message:this.data.record.city,
+      showMessagePanel:true
+    });
+  },
+
   confirmMessage(){
     // 修改数据
     if(this.data.MessageTitle === "公司名称"){
@@ -204,18 +317,21 @@ Page({
     else if(this.data.MessageTitle === "备注"){
       this.setData({"record.note":this.data.message});
     }
-    this.data.message="";
+    else if(this.data.MessageTitle === '城市'){
+      this.setData({'record.city':this.data.message});
+    }
+    this.data.message="无";
     this.data.MessageTitle="";
     this.data.placeholder="";
     this.data.showMessagePanel = false;
   },
-
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     var data = JSON.parse(options.data);
+    DB.GetOneRecord(data.id,(res)=>{});
     this.setData({record:data});
   },
 

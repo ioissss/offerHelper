@@ -138,3 +138,24 @@ export async function UpdateOneRecord(record, successFunc){
     }
   })
 }
+
+// 获取某条记录
+export async function GetOneRecord(id, successFunc){
+  const openID = await UTIL.GetOpenid();
+  const _ = db.command;
+  db.collection('records').where({
+    '_openid':openID,
+    'record.id':id
+  }).get({
+    success:function(res){
+      console.log(res);
+      successFunc(res);
+    },
+    fail:function(error){
+      wx.showToast({
+        title: '获取数据失败',
+        icon:'error'
+      })
+    }
+  })
+}
