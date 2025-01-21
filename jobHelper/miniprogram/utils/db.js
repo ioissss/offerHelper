@@ -108,3 +108,33 @@ export async function UpdateWholeRecords(newList,successFunc){
     }
   })
 }
+
+// 更新某条记录
+export async function UpdateOneRecord(record, successFunc){
+  wx.showToast({
+    title: '数据上传中',
+    icon:'loading'
+  });
+  const openID = await UTIL.GetOpenid();
+  const _ = db.command;
+  db.collection('records').where({
+    '_openid':openID,
+    'record.id':record.id
+  }).update({
+    data:{
+      'record.$':record
+    },
+    success:function(res){
+      successFunc();
+      wx.hideToast();
+    },
+    fail:function(error){
+      console.log(error);
+      wx.hideToast();
+      wx.showToast({
+        title: '上传数据失败',
+        icon:'error'
+      });
+    }
+  })
+}

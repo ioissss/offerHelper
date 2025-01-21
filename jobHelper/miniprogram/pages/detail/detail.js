@@ -1,6 +1,8 @@
 // pages/detail/detail.js
 
 import Dialog from '@vant/weapp/dialog/dialog';
+const DB = require("../../utils/db")
+
 Page({
 
   data: {
@@ -39,6 +41,8 @@ Page({
   },
   // -------------- 点击进度条 -----------------
   onClickStep(e){
+    if(!this.data.editMode)
+      return;
     const index = e.detail;
     this.setData({active:index});
   },
@@ -123,11 +127,15 @@ Page({
     this.setData({editMode:true});
   },
 
-  saveEdit(){
+  saveEdit(event){
     // 上传数据
+    DB.UpdateOneRecord(this.data.record);
+    this.setData({editMode:false});
   },
 
   ModifyCompanyName(){
+    if(!this.data.editMode)
+      return;
     this.setData({
       MessageTitle:"公司名称",
       placeholder:"请输入公司名",
@@ -136,12 +144,47 @@ Page({
     })
   },
   ModifyCompanyURL(){
+    if(!this.data.editMode)
+      return;
     this.setData({
       MessageTitle:"投递链接",
       placeholder:"请输入链接",
       message:this.data.record.url,
       showMessagePanel:true
-    })
+    });
+  },
+
+  ModifyJob(){
+    if(!this.data.editMode)
+      return;
+    this.setData({
+      MessageTitle:"投递岗位",
+      placeholder:"请输入投递岗位",
+      message:this.data.record.job,
+      showMessagePanel:true
+    });
+  },
+
+  ModifyJobDesc(){
+    if(!this.data.editMode)
+      return;
+    this.setData({
+      MessageTitle:"岗位描述",
+      placeholder:"请输入投递岗位",
+      message:this.data.record.jobDesc,
+      showMessagePanel:true
+    });
+  },
+
+  ModifyNote(){
+    if(!this.data.editMode)
+      return;
+    this.setData({
+      MessageTitle:"备注",
+      placeholder:"请输入备注",
+      message:this.data.record.note,
+      showMessagePanel:true
+    });
   },
 
   confirmMessage(){
@@ -151,6 +194,15 @@ Page({
     }
     else if(this.data.MessageTitle === "投递链接"){
       this.setData({'record.url':this.data.message});
+    }
+    else if(this.data.MessageTitle === "投递岗位"){
+      this.setData({'record.job':this.data.message});
+    }
+    else if(this.data.MessageTitle === "岗位描述"){
+      this.setData({'record.jobDesc':this.data.message});
+    }
+    else if(this.data.MessageTitle === "备注"){
+      this.setData({"record.note":this.data.message});
     }
     this.data.message="";
     this.data.MessageTitle="";

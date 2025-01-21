@@ -89,6 +89,9 @@ Page({
     ],  //投递状态
     selectIndex_State:0,
     state:"未投递",
+
+    // 备注
+    note:"无",
     // 数据表
     dataList:[]
   },
@@ -188,7 +191,8 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
       imgFile:"",
       resumeFile:"",
       date:formattedDate,
-      url:this.data.url
+      url:this.data.url,
+      note:this.data.note
     };
     AddRecord(record,(res)=>{
         // 这里没有触发重新渲染
@@ -207,6 +211,7 @@ this.setData({active_tab:Number(e.currentTarget.dataset.index)});
         this.data.CompanySize="";
         this.data.fileList=[];
         this.data.resumeFile=[];
+        this.data.note = "无"
     });
     this.setData({showAddPanel:false});
 

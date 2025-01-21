@@ -231,7 +231,7 @@ isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:exp
         
       <van-cell-group>
       <van-field
-        value="{{ message }}"
+        model:value="{{ note }}"
         label="备注"
         type="textarea"
         placeholder="请输入备注"
