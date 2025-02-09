@@ -7,31 +7,6 @@ const UTIL = require("../../utils/utils");
 Page({
 
   data: {
-    active:1,
-    steps: [
-      {
-        text: '投递',
-        desc:"25/1/13",
-        inactiveIcon: 'star-o',
-        activeIcon: 'success',
-      },
-      {
-        text: '一面',
-        desc:"25/1/13",
-        inactiveIcon: 'star-o',
-        activeIcon: 'success',
-      },
-      {
-        text: '二面',
-        inactiveIcon: 'star-o',
-        activeIcon: 'success',
-      },
-      {
-        text: 'offer',
-        inactiveIcon: 'star-o',
-        activeIcon: 'success',
-      },
-    ],
     fileList:[], //图片文件
     editMode:false,
     showMessagePanel:false,
@@ -58,13 +33,31 @@ Page({
     enterpriseNatureList:[
       "私企","国企"
     ],  //企业性质
+
+
+    // 下载图片
+    imgDownloaded:false,
+    imageURL:""
   },
+
+  // ------------- 返回上一页 -----------------
+  GoBack(e){
+    wx.navigateBack({
+      delta:1
+    });
+  },
+
   // -------------- 点击进度条 -----------------
   onClickStep(e){
     if(!this.data.editMode)
       return;
     const index = e.detail;
-    this.setData({active:index});
+    for(var i = 0; i < this.data.record.steps.length; ++i){
+      this.data.record.steps[i].desc = "";
+    }
+    for(var i = 0; i <= index; ++ i)
+      this.data.record.steps[i].desc = UTIL.FormattedDate();
+    this.setData({'record.curStep':index, 'record.steps':this.data.record.steps});
   },
 
   // --------------- 弹出框框 -------------------
@@ -72,10 +65,12 @@ Page({
     this.setData({showSelector:false});
   },
   onPickerConfirm(e){
-    if(this.data.pickerTitle === "公司规模")
-      this.data.record.CompanySize.name = e.detail.value;
-    else if(this.data.pickerTitle === "公司性质")
-      this.data.record.enterpriseNature.name = e.detail.value;
+    if(this.data.pickerTitle === "公司规模"){
+      this.setData({'record.CompanySize.name':e.detail.value});
+    }
+    else if(this.data.pickerTitle === "公司性质"){
+      this.setData({'record.enterpriseNature.name':e.detail.value});
+    }
 
     this.data.pickerTitle="";
     this.data.pickerColumns=[];
@@ -144,6 +139,7 @@ Page({
         });
       },
       fail:error=>{
+
       }
     })
     // 置空
@@ -153,24 +149,69 @@ Page({
     }
     this.setData({'record.resumeFile':resumeFile});
   },
+  // 下载简历文件
+  downLoadResume(){
+    wx.cloud.downloadFile({
+      fileID: this.data.record.resumeFile.path , // 对象存储文件ID，从上传文件接口或者控制台获取
+      success: res => {
+        // 打开本地文件预览
+        wx.openDocument({
+          filePath: res.tempFilePath,
+          showMenu:true,
+        });
+      },
+      fail: err => {
+        wx.showToast({
+          title: '加载文件失败',
+          icon:"none"
+        })
+      }
+    })
+  },
 
   // ---------------- 上传岗位描述-图片 -----------------
-  afterRead(event) {
-    const { file } = event.detail;
-    var fileList = [];
-    fileList.push({
-      url:file.url,
-      name:"descImg",
-      isImage:true,
-      deletable:true
-    });
-    this.setData({'record.imgFile':fileList, newImgFile:true});
+
+  downLoadImage(event){
+    var that = this;
+    wx.cloud.downloadFile({
+      fileID:this.data.record.imgFile[0],
+      success:res=>{
+        const filePath = res.tempFilePath;
+        that.setData({imageURL:[filePath]});
+      },
+      fail:error=>{
+        console.log(error);
+        wx.showToast({
+          title: '加载失败',
+          icon:'none'
+        })
+      }
+    })
   },
-  deleteImg(event){
-    const index = event.detail.index;
-    var fileList = this.data.record.imgFile;
-    fileList.splice(index,1);
-    this.setData({'record.imgFile':fileList});
+  chooseImage(res){
+    wx.chooseMedia({
+      count:1,
+      mediaType:['image'],
+      sourceType:['album','camera'],
+      success:res=>{
+        this.setData({imageURL:[res.tempFiles[0].tempFilePath],newImgFile:true});
+      }
+    })
+  },
+  deleteImg(res){
+    var that = this;
+    if(this.data.record.imgFile.length > 0){
+      wx.cloud.deleteFile({
+        fileList:this.data.record.imgFile,
+        success:res=>{
+          that.setData({imageURL:[],'record.imgFile':[],newImgFile:false});
+          wx.showToast({
+            title: '图片已删除',
+            icon:'none'
+          })
+        }
+      })
+    }
   },
 
   // ----------------- 进入编辑模式 -----------------
@@ -179,6 +220,7 @@ Page({
   },
 
   async saveEdit(event){
+    var that = this;
     // 上传数据
     DB.UpdateOneRecord(this.data.record,()=>{});
     // 上传文件
@@ -187,6 +229,7 @@ Page({
     if(this.data.newResumeFile){
       var Funcs = {
         'success':(res)=>{
+          console.log("上传简历文件成功");
           // 更新相应字段
           const db = wx.cloud.database();
           db.collection('records').where({
@@ -196,16 +239,21 @@ Page({
             data:{
               'record.$.resumeFile.path':res.fileID
             }
+          });
+          this.data.record.resumeFile.path = res.fileID;
+          wx.showToast({
+            title: '上传文件成功',
+            icon:'none'
           })
         },
         'fail':(error)=>{
           wx.showToast({
-            title: '上传简历文件失败',
+            title: '上传简历失败',
             icon:'error'
           });
         }
       }
-      UTIL.UploadFile(this.data.record.resumeFile.path, 'resume/' + this.data.record.resumeFile.name + Math.random(), Funcs);
+      UTIL.UploadFile(this.data.record.resumeFile.path, 'resume/' + Math.random() + this.data.record.resumeFile.name, Funcs);
     }
     // 上传图片
     if(this.data.newImgFile){
@@ -221,6 +269,11 @@ Page({
             data:{
               'record.$.imgFile':imgs
             }
+          });
+          that.data.record.imgFile = imgs;
+          wx.showToast({
+            title: '图片上传成功',
+            icon:'none'
           })
         },
         'fail':(error)=>{
@@ -230,9 +283,17 @@ Page({
           });
         }
       };
-      UTIL.UploadFile(this.data.record.imgFile[0].url, 'image/' + Math.random(), Funcs);
+      UTIL.UploadFile(this.data.imageURL[0], 'image/' + Math.random() + '.png', Funcs);
     }
     this.setData({editMode:false, newImgFile:false, newResumeFile:false});
+  },
+
+  // ------------------- 预览图片 -------------------
+  previewImage(event){
+    wx.previewImage({
+      urls: this.data.record.imgFile,
+      current: this.data.record.imgFile[0]
+    })
   },
 
   ModifyCompanyName(){
@@ -337,19 +398,6 @@ Page({
         if(res[i].id === data.id)
           this.setData({record:res[i]});
     });
-    this.setData({record:data});
-    // 将图片转换成url
-    wx.cloud.downloadFile({
-      fileID:this.data.record.imgFile[0],
-      success(res){
-        wx.saveImageToPhotosAlbum({
-          filePath: res.tempFilePath,
-          success(res){
-            console.log(res);
-          }
-        })
-      }
-    })
   },
 
   /**

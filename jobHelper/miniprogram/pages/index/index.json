@@ -2,8 +2,8 @@
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
     "i-button": "../../dist/button/index",
-    "table":"../../components/table/table",
-    "action-td":"../../components/action-td/action-td",
+    "table": "../../components/table/table",
+    "action-td": "../../components/action-td/action-td",
     "van-image": "@vant/weapp/image/index",
     "van-tab": "@vant/weapp/tab/index",
     "van-tabs": "@vant/weapp/tabs/index",
@@ -11,11 +11,15 @@
     "van-popup": "@vant/weapp/popup/index",
     "van-field": "@vant/weapp/field/index",
     "van-cell": "@vant/weapp/cell/index",
-  "van-cell-group": "@vant/weapp/cell-group/index",
-  "van-uploader": "@vant/weapp/uploader/index",
-  "van-picker": "@vant/weapp/picker/index",
-  "my_select":"../../components/selector/selector",
-  "van-dialog": "@vant/weapp/dialog/index"
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "my_select": "../../components/selector/selector",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-steps": "@vant/weapp/steps/index",
+    "van-datetime-picker": "@vant/weapp/datetime-picker/index"
   },
-  "styleIsolation": "apply-shared"
+  "styleIsolation": "apply-shared",
+  "enablePullDownRefresh": false
 }

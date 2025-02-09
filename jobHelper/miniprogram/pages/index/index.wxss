@@ -1,7 +1,7 @@
 /* pages/index/index.wxss */
 page{
   background-color: #f4f3e8;
-  background-image: url('https://gitee.com/xing-xi-zhang/111/raw/master/0cebbcfe9ac498db6bdccff342a0acf.jpg'); /* 背景图片路径 */
+  /* background-image: url('https://gitee.com/xing-xi-zhang/111/raw/master/0cebbcfe9ac498db6bdccff342a0acf.jpg'); 背景图片路径 */
   background-size: cover; /* 背景图尺寸适配 */
   background-position: center; /* 背景图位置 */
   background-repeat: no-repeat; /* 不重复背景图 */
@@ -69,8 +69,69 @@ flex-direction: row;
 }
 
 .addRecordPanel{
-  height: 750rpx;
-  width: 500rpx;
-  z-index: 1000;
+  height: 1000rpx;
+  width: 700rpx;
+  z-index: 100000;
   margin-top: 80rpx;
+}
+
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  -webkit-text-size-adjust:none;
+  -webkit-user-select: none;
+  font-size: 35rpx;
+  color: #333;
+  font-family: Helvetica,Arial,"Helvetica Neue","Droid Sans","Microsoft YaHei",sans-serif;
+}
+.canvas {
+  width: 100%;
+  height: 200px;
+}
+
+.SubContainer{
+  background-color: #f4f3e8;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  -webkit-text-size-adjust:none;
+  -webkit-user-select: none;
+  font-size: 35rpx;
+  color: #333;
+  font-family: Helvetica,Arial,"Helvetica Neue","Droid Sans","Microsoft YaHei",sans-serif;
+}
+
+.navBar{
+  height: 60px;
+}
+
+.card{
+  margin-top: 50rpx;
+  width: 90%;
+  margin-left: 5%;
+  height: auto;
+  background: #ffffff;
+  border-radius: 30rpx;
+  box-shadow: 5px 5px 5px #cdcfcf;
+  opacity: 0.9;
+ }
+
+ .CompanyInfo{
+  border-radius: 30rpx;
+   margin-top: 10rpx;
+   height: 80rpx;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }
+
+ /* 虚线样式 */
+.dashed-line {
+  width: 95%;
+  border-top: 1px dashed rgb(158, 155, 155); /* 设置虚线样式 */
+  margin: 8px 0; /* 上下边距 */
 }

@@ -20,12 +20,15 @@
       style="background-color: #f4f3e8;"
      class="table-content" wx:if="{{!showTipImage}}">
       <zml-tr 
+      style="background-color:#f4f3e8;"
       bindclickexpand="handleClickExpand"
-  bindtouchstart="handleTouchStart"
-  bindtouchmove="handleTouchMove"
-  bindtouchend="handleTouchEnd"
-   bindclicklistitem="handleClickListItem" bindclickaction="handleClickAction" bindonactionevent="handleOnActionEvent"   bindcheckkey="handleClickCheck" wx:for="{{showDataList}}" wx:key="row_key" data-rowkey="{{item[rowKey]}}" bindlongpress="handleLongPress" rowKey="{{rowKey}}" columns="{{columns}}" item="{{item}}" index="{{index}}" select="{{select}}" scrollX="{{scrollX}}" checked="{{checkObj[item[rowKey]]}}" isExpand="{{isExpand}}" expandValueKey="{{expandValueKey}}" initExpandValue="{{initExpandValue}}" dynamicValue="{{dynamicValue}}" generic:action-td="action-td" generic:expand-component="expand-component">
-   </zml-tr>
+      bindtouchstart="handleTouchStart"
+      bindtouchmove="handleTouchMove"
+      bindtouchend="handleMyTouchEnd"
+      bindclicklistitem="handleClickListItem" bindclickaction="handleClickAction" bindonactionevent="handleOnActionEvent"   bindcheckkey="handleClickCheck" wx:for="{{showDataList}}" wx:key="row_key" data-rowkey="{{item[rowKey]}}" bindlongpress="handleLongPress" rowKey="{{rowkey}}"  columns="{{columns}}" item="{{item}}" index="{{index}}" select="{{select}}" scrollX="{{scrollX}}" checked="{{checkObj[item[rowKey]]}}" isExpand="{{isExpand}}" expandValueKey="{{expandValueKey}}" initExpandValue="{{initExpandValue}}" dynamicValue="{{dynamicValue}}" generic:action-td="action-td" 
+      selectedRowKey = "{{selectedRowKey}}"
+      generic:expand-component="expand-component">
+      </zml-tr>
 
       <zml-load-more tip="{{getListLoading?'请求中':'暂无更多数据'}}" loading="{{ getListLoading }}" />
     </view>

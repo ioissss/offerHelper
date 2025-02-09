@@ -19,7 +19,6 @@ Component({
     handleClickItem(e) {
       const { type } = e.currentTarget.dataset;
       const { index, item } = this.data;
-      console.log(item);
       this.triggerEvent('clickaction', {
           value: {
               type,
@@ -32,7 +31,8 @@ Component({
               index, item
           }
       });
-      this.goto(item);
+      if(type != "interview")
+        this.goto(item);
   },
   goto(item){
     let data = JSON.stringify(item);

@@ -1,254 +1,277 @@
 <view class="PageContainer">
 
-<!-- 个人信息栏 -->
-<view class="personalInfo">
-<view style="display: flex;justify-content: center;flex-direction: column;margin-left: 40rpx;">
-<!-- 名字 -->
-<view>
-<text style="font-weight: 530;font-size: 35rpx;">刘春一</text>
-</view>
-<!-- 额外信息 -->
-<text style="font-size: 18rpx; font-weight: 100rpx;margin-top: 5rpx;">喜欢张大权</text>
-</view>
-
-<view class="name" style="margin-left: 400rpx;">
-  <van-image style="position: relative; left: 75rpx; top: 0rpx"
-  round
-  width="100rpx"
-  height="100rpx"
-  src="https://img.yzcdn.cn/vant/cat.jpeg"
-/>
-</view>
-</view>
-
-<!-- 统计信息栏 -->
-<view class="statistical">
-
-
-<view class="statistical-item">
-<view>
-<text style="font-size: 35rpx;font-weight: 600;">604</text>
-</view>
-<text style="font-size: 22rpx;">投递数量</text>
-</view>
-
-<view class="statistical-item" style="margin-left: 80rpx;">
-<view>
-<text style="font-size: 35rpx;font-weight: 600;">604</text>
-</view>
-<text style="font-size: 22rpx;">约面</text>
-</view>
-
-<view class="statistical-item" style="margin-left: 80rpx;">
-<view>
-<text style="font-size: 35rpx;font-weight: 600;">108</text>
-</view>
-<text style="font-size: 22rpx;">offer</text>
-</view>
-
-</view>
-
-<view style="display: flex; flex-direction: row; width: 750rpx; height: 100rpx; position: relative; left: 0rpx; top: 22rpx; z-index: 999;">
-  <van-image bind:tap="onClickTabImage" data-index="0" style="margin-left: 85rpx;margin-top: 27rpx;"
-  round
-  width="70rpx"
-  height="70rpx"
-  src="{{active_tab==0?'https://gitee.com/xing-xi-zhang/111/raw/master/4404e001fd16e37710311e74a36badc.png':'https://gitee.com/xing-xi-zhang/111/raw/master/0c81f6bb88a18c1f68edc3593cc3933.png'}}"
-/>
-<van-image bind:tap="onClickTabImage" data-index="1" style="margin-left: 150rpx; margin-top: 27rpx; position: relative; left: 36rpx; top: 0rpx"
-  round
-  width="70rpx"
-  height="70rpx"
-  src="{{active_tab==1?'https://gitee.com/xing-xi-zhang/111/raw/master/5cb511e74e2ac159fc6e7da9f8f0d6f.png':'https://gitee.com/xing-xi-zhang/111/raw/master/%E8%AE%B0%E5%BD%95.png'}}"
-/>
-<van-image bind:tap="onClickTabImage" data-index="2" style="margin-left: 195rpx; margin-top: 27rpx; position: relative; left: 22rpx; top: 0rpx"
-  round
-  width="70rpx"
-  height="70rpx"
-  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%85%B6%E4%BB%96%E4%BA%BA%E5%91%98.png"
-/>
-</view>
-
-<!-- 功能分栏 -->
-<van-tabs
-active="{{tabs[active_tab]}}"
-bindchange="handleChange"
-duration="{{0.4}}"
- color="#000000">
-  <van-tab key="tab1" title="统计" name="a">
-  </van-tab>
-
-  <van-tab key="tab2" title="我的投递" name="b">
-    <!-- 操作栏 -->
-    <view style="display: flex;flex-direction: row;">
-    <van-icon wx:if="{{!editorMode}}" style="margin-left: 30rpx;" bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png" />
-    <van-icon wx:if="{{editorMode}}" style="margin-left: 30rpx;" bind:tap="deleteRecords" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%88%A0%E9%99%A4.png" />
-    <van-icon wx:if="{{!editorMode}}" style="margin-left: 30rpx;" bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5.png" />
-    <van-icon style="margin-left: 590rpx;" wx:if="{{editorMode}}" bind:tap="saveEdit" size="65rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%9D%E5%AD%98.png" />
+  <!-- 个人信息栏 -->
+  <view wx:if="{{userInfo !== ''}}" class="personalInfo">
+    <view style="display: flex;justify-content: center;flex-direction: column;margin-left: 40rpx;">
+      <!-- 名字 -->
+      <view style="display: flex;align-items: center;">
+        <text style="font-weight: 530;font-size: 35rpx;">{{userInfo.nickName}}</text>
+        <van-image bind:tap="modifyUserName" style="margin-left: 40rpx;" width="35rpx" height="35rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png" />
+      </view>
+      <!-- 额外信息 -->
+      <text style="font-size: 18rpx; font-weight: 100rpx;margin-top: 5rpx;">
+        "{{"211"}}"
+      </text>
     </view>
 
-  <!-- 每一行必须有唯一标识符，id，作为rowKey -->
-<table
-select="{{showSelectBox}}"
-bindcheckkey="checkKey"
-generic:action-td="action-td"
-isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:expand-component="expand-component" bindclickexpand="handleClickExpand"
- tableHeight="{{1200}}" rowKey = "id" bindlongpress = "handleRowLongPress" columns = "{{columns}}" dataList = "{{dataList}}" getListLoading="{{isLoadingData}}" showTipImage="{{false}}">
-</table>
-  </van-tab>
+    <view class="name" style="margin-left: auto;margin-right: 40rpx;">
+      <van-image round width="100rpx" height="100rpx" src="{{userInfo.avatarUrl}}" />
+    </view>
+  </view>
 
-  <van-tab key="tab3" title="看大家" name="c">
-  </van-tab>
-</van-tabs>
+  <button bind:tap="getUserProfile" wx:if="{{userInfo === ''}}">登录</button>
 
-<view bind:tap="goto" wx:if="{{active_tab==1&&!(editorMode)}}" class="fixed-top">
-  <van-image
-  width="120rpx"
-  height="120rpx"
-  src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
-/>
-</view>
+  <!-- 统计信息栏 -->
+  <view class="statistical">
 
 
-<!-- 增加记录 -->
-<van-popup closeable round z-index = "{{999}}" show="{{ showAddPanel }}" bind:close="onClose">
+    <view class="statistical-item">
+      <view>
+        <text style="font-size: 35rpx;font-weight: 600;">{{recordNum}}</text>
+      </view>
+      <text style="font-size: 22rpx;">投递数量</text>
+    </view>
+
+    <view class="statistical-item" style="margin-left: 80rpx;">
+      <view>
+        <text style="font-size: 35rpx;font-weight: 600;">{{interviewNum}}</text>
+      </view>
+      <text style="font-size: 22rpx;">约面</text>
+    </view>
+
+    <view class="statistical-item" style="margin-left: 80rpx;">
+      <view>
+        <text style="font-size: 35rpx;font-weight: 600;">{{offerNum}}</text>
+      </view>
+      <text style="font-size: 22rpx;">offer</text>
+    </view>
+
+  </view>
+
+  <!-- 功能栏图标 -->
+  <view style="display: flex; flex-direction: row; width: 750rpx; height: 100rpx; position: relative; left: 0rpx; top: 22rpx; z-index: 999;">
+    <van-image bind:tap="onClickTabImage" data-index="0" style="margin-left: 60rpx;margin-top: 27rpx;" width="70rpx" height="70rpx" src="{{active_tab==0?'https://gitee.com/xing-xi-zhang/111/raw/master/4404e001fd16e37710311e74a36badc.png':'https://gitee.com/xing-xi-zhang/111/raw/master/0c81f6bb88a18c1f68edc3593cc3933.png'}}" />
+    <van-image bind:tap="onClickTabImage" data-index="1" style="margin-left: 100rpx; margin-top: 27rpx; position: relative; left: 36rpx; top: 0rpx" width="70rpx" height="70rpx" src="{{active_tab==1?'https://gitee.com/xing-xi-zhang/111/raw/master/5cb511e74e2ac159fc6e7da9f8f0d6f.png':'https://gitee.com/xing-xi-zhang/111/raw/master/%E8%AE%B0%E5%BD%95.png'}}" />
+    <van-image bind:tap="onClickTabImage" data-index="2" style="margin-left: 115rpx; margin-top: 27rpx; position: relative; left: 22rpx; top: 0rpx" width="69rpx" height="69rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%8F%90%E9%86%92.png" />
+
+    <van-image bind:tap="onClickTabImage" data-index="3" style="margin-left: 125rpx; margin-top: 27rpx; position: relative; left: 22rpx; top: 0rpx" width="70rpx" height="70rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%85%B6%E4%BB%96%E4%BA%BA%E5%91%98.png" />
+
+  </view>
+
+  <!-- 功能分栏 -->
+  <van-tabs active="{{tabs[active_tab]}}" bindchange="handleChange" duration="{{0.4}}" color="#000000">
+    <van-tab key="tab1" title="统计" name="a">
+      <!-- 饼状图 -->
+      <view wx:if="{{dataList.length !== 0}}" class="container">
+        <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler"></canvas>
+      </view>
+
+      <view wx:if="{{dataList.length !== 0}}" style="display: flex;flex-direction: row; margin-top: 50rpx;">
+        <!-- 直方图 -->
+        <view class="SubContainer">
+          <canvas canvas-id="columnCanvas" class="canvas" bindtouchstart="touchHandler"></canvas>
+        </view>
+
+        <!-- 环状图 -->
+        <view class="SubContainer">
+          <canvas canvas-id="ringCanvas" class="canvas" bindtouchstart="touchHandler"></canvas>
+        </view>
+      </view>
+
+    </van-tab>
+
+    <!-- 表格 -->
+    <van-tab key="tab2" title="我的投递" name="b">
+      <!-- 操作栏 -->
+      <view style="display: flex;flex-direction: row;margin-left: 35rpx;margin-top: 20rpx;">
+        <view wx:if="{{!editorMode}}" style="display: flex;flex-direction: column;justify-content: center; align-items: center;">
+          <van-icon bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png" />
+          <view>
+            <text style="font-size: 25rpx;color: rgb(92, 92, 91);">编辑</text>
+          </view>
+        </view>
+
+        <view wx:if="{{editorMode}}" style="margin-left: 30rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;">
+          <van-icon bind:tap="deleteRecords" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%88%A0%E9%99%A4.png" />
+          <view>
+            <text style="font-size: 25rpx;color: rgb(92, 92, 91);">删除</text>
+          </view>
+        </view>
+        <view wx:if="{{!editorMode}}" style="margin-left: 30rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;">
+          <van-icon bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5.png" />
+          <view>
+            <text style="font-size: 25rpx;color: rgb(92, 92, 91);">导入</text>
+          </view>
+        </view>
+        <view style="margin-left: 555rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;" wx:if="{{editorMode}}">
+          <van-icon bind:tap="saveEdit" size="65rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%9D%E5%AD%98.png" />
+          <view>
+            <text style="font-size: 25rpx;color: rgb(92, 92, 91);">保存</text>
+          </view>
+        </view>
+
+        <view bind:tap="openSortPanel" wx:if="{{!editorMode}}" style="margin-left: 30rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;">
+          <van-icon size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%8E%92%E5%BA%8F.png" />
+          <view>
+            <text style="font-size: 25rpx;color: rgb(92, 92, 91);">排序</text>
+          </view>
+        </view>
+
+        <view wx:if="{{!editorMode}}" style="margin-left: 30rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;">
+          <van-icon bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E7%AD%9B%E9%80%89.png" />
+          <view>
+            <text style="font-size: 25rpx;color: rgb(92, 92, 91);">筛选</text>
+          </view>
+        </view>
+
+      </view>
+
+      <!-- 每一行必须有唯一标识符，id，作为rowKey -->
+      <table bind:clickaction="clickTableItem" select="{{showSelectBox}}" bindcheckkey="checkKey" generic:action-td="action-td" isExpand="{{true}}" expandValueKey="" initExpandValue="暂无备注" generic:expand-component="expand-component" bindclickexpand="handleClickExpand" bind:swapEnd="swapEnd" editorMode="{{editorMode}}" tableHeight="{{1200}}" rowKey="id" bindlongpress="handleRowLongPress" columns="{{columns}}" dataList="{{dataList}}" getListLoading="{{false}}" showTipImage="{{false}}">
+      </table>
+    </van-tab>
+
+    <!-- 面试提醒 -->
+    <van-tab key="tab3" title="面试提醒" name="c">
+      <view wx:for="{{interviewListShow}}" wx:for-item="record" class="card">
+        <view class="CompanyInfo">
+          <view style="margin-left: 20rpx;margin-top: 10rpx; font-weight: 750;font-size: 40rpx;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+            <view>
+              <text>{{record.company}}</text>
+            </view>
+            <van-image bind:tap="onFinishInterview" data-ID="{{record.id}}" style="margin-left: 45rpx;" width="45rpx" height="50rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%AE%8C%E6%88%90%20(1).png" />
+          </view>
+
+          <!-- 面试时间 -->
+          <view style="display: flex;flex-direction: row; align-items: center;margin-left: auto;margin-right: 30rpx;">
+            <van-icon size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%97%B6%E9%97%B4.png" />
+            <text bind:tap="clickOnCompanySize" style="font-size: 30rpx;color: #5f5d5d;">{{record.interviewDate}}</text>
+          </view>
+        </view>
+        <view class="dashed-line"></view>
+        <!-- 标签 -->
+        <view style="margin-left: 20rpx;">
+          <block>
+            <van-tag wx:if="{{record.industry !== ''}}" size="medium" color="#f2826a">{{record.industry}}</van-tag>
+          </block>
+          <van-tag wx:if="{{record.enterpriseNature.name !== ''}}" bind:tap="clickOnCompanyNature" style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.enterpriseNature.name}}</van-tag>
+          <van-tag wx:if="{{record.city !== ''}}" bind:tap="ModifyCity" style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.city}}</van-tag>
+        </view>
+        <!-- 具体信息 -->
+        <view style="margin-left: 20rpx;display: flex;flex-direction: column;margin-top: 15rpx;">
+          <text style="font-size: 20rpx;color: rgb(133, 119, 119);">投递日期 : {{record.date}}</text>
+          <text bind:tap="ModifyCompanyURL" selectable="true" style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递链接 : {{record.url}}</text>
+          <text bind:tap="ModifyJobDesc" style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递岗位 : {{record.job}}</text>
+        </view>
+
+        <view style=" margin-left: 35rpx;margin-top: 20rpx;width: 90%;margin-bottom: 20rpx;">
+          <van-steps bind:click-step="onClickStep" steps="{{ record.steps}}" active="{{ record.curStep }}" active-color="#29f07f" />
+        </view>
+
+      </view>
+    </van-tab>
+
+    <!-- 看大家 -->
+    <van-tab key="tab4" title="看大家" name="d">
+    </van-tab>
+  </van-tabs>
+
+  <view bind:tap="openAddPanel" wx:if="{{active_tab==1&&!(editorMode) && !(showAddPanel)}}" class="fixed-top">
+    <van-image width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png" />
+  </view>
+
+  <!-- 增加记录 -->
+  <van-popup closeable round z-index="{{999}}" show="{{ showAddPanel }}" bind:close="onClose">
     <view class="addRecordPanel">
       <van-cell-group>
-        <van-field
-          label="公司"
-          model:value="{{ companyName }}"
-          placeholder="输入公司名称"
-          border="{{ true }}"
-          bind:change="onChange"
-        />
-        <van-field
-          label="城市"
-          model:value="{{ city }}"
-          placeholder="城市"
-          border="{{ true }}"
-          bind:change="onChange"
-        />
-        <van-field
-          label="岗位"
-          model:value="{{ job }}"
-          placeholder="投递岗位"
-          border="{{ true }}"
-          bind:change="onChange"
-        />
-        <van-field
-          label="链接"
-          model:value="{{ url }}"
-          placeholder="投递链接：https//..."
-          border="{{ true }}"
-          bind:change="onChange"
-        />
-        <van-field
-          label="描述"
-          model:value="{{ jobDesc }}"
-          placeholder="岗位描述"
-          border="{{ true }}"
-          bind:change="onChange"
-        />
+        <van-field label="公司" model:value="{{ companyName }}" placeholder="输入公司名称" border="{{ true }}" bind:change="onChange" />
+        <van-field label="岗位" model:value="{{ job }}" placeholder="投递岗位" border="{{ true }}" bind:change="onChange" />
+        <van-field label="所属行业" model:value="{{ industry }}" placeholder="所属行业" border="{{ true }}" bind:change="onChange" />
+        <van-field label="城市" model:value="{{ city }}" placeholder="城市" border="{{ true }}" bind:change="onChange" />
+        <van-field label="链接" model:value="{{ url }}" placeholder="投递链接：https//..." border="{{ true }}" bind:change="onChange" />
+        <van-field label="描述" model:value="{{ jobDesc }}" placeholder="岗位描述" border="{{ true }}" bind:change="onChange" />
 
         <view>
-        <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="1" file-list="{{ fileList }}" bind:after-read="afterRead">
-          <view wx:if="{{fileList.length==0}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;">
-            <van-image
-          width="80rpx"
-          height="80rpx"
-          src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
-          />
-          <view>
-          <text style="color: rgb(121, 118, 115);font-size: 20rpx;">添加图片</text>
-          </view>  
-          </view>
-        </van-uploader>
+          <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ true }}" max-count="1" file-list="{{ fileList }}" bind:after-read="afterRead">
+            <view wx:if="{{fileList.length===0}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;">
+              <van-image width="80rpx" height="80rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png" />
+              <view>
+                <text style="color: rgb(121, 118, 115);font-size: 20rpx;">添加图片</text>
+              </view>
+            </view>
+          </van-uploader>
         </view>
-        
+
 
         <view style="margin-top: 20rpx;display: flex;flex-direction: column;margin-left: 30rpx;" wx:if="{{resumeFile.length !=0}}">
-      <van-image
-        width="80rpx"
-        height="80rpx"
-        src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png"
-      />
-      <text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{resumeFile.name}}</text>
-      </view>
+          <van-image width="80rpx" height="80rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png" />
+          <text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{resumeFile.name}}</text>
+        </view>
         <view bind:tap="chooseFileFromMessage" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 30rpx;" wx:if="{{resumeFile.length==0}}">
-      <van-image
-        width="80rpx"
-        height="80rpx"
-        src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png"
-      />
-      <view>
-          <text style="color: rgb(121, 118, 115);font-size: 20rpx;">添加简历</text>
-          </view>  
-      </view>
+          <van-image width="80rpx" height="80rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png" />
+          <view>
+            <text style="color: rgb(121, 118, 115);font-size: 20rpx;">添加简历</text>
+          </view>
+        </view>
 
-        <van-field
-          label="行业"
-          model:value="{{ sector }}"
-          placeholder="公司所属行业"
-          border="{{ true }}"
-          bind:change="onChange"
-        />
-      
-      <view style="margin-top: 20rpx;margin-left: 20rpx;">
-      <my_select
-        title="投递状态"
-        bind:tap="chooseSector" 
-        nowId="{{selectIndex_State}}"
-        nameList="{{stateList}}" 
-        nowName="{{state}}" 
-        placeholder="投递状态" 
-        bind:handleChange="stateChange">
-      </my_select>
-      </view>
+        <van-field label="行业" model:value="{{ sector }}" placeholder="公司所属行业" border="{{ true }}" bind:change="onChange" />
 
-      <view style="margin-top: 20rpx;margin-left: 20rpx;">
-      <my_select
-        title="企业性质"
-        bind:tap="chooseSector" 
-        nowId="{{selectIndex_EN}}"
-        nameList="{{enterpriseNatureList}}" 
-        nowName="{{enterpriseNature}}" 
-        placeholder="企业性质" 
-        bind:handleChange="ENchange">
-      </my_select>
-      </view>
 
-      <view style="margin-top: 20rpx;margin-left: 20rpx;">
-      <my_select
-        title="企业规模"
-        bind:tap="chooseSector" 
-        nowId="{{selectIndex_CS}}"
-        nameList="{{CompanySizeList}}" 
-        nowName="{{CompanySize}}" 
-        placeholder="公司规模" 
-        bind:handleChange="companySizeChange">
-      </my_select>
-      </view>
-        
-      <van-cell-group>
-      <van-field
-        model:value="{{ note }}"
-        label="备注"
-        type="textarea"
-        placeholder="请输入备注"
-        autosize
-        border="{{ false }}"
-      />
-      </van-cell-group>
+        <view style="margin-top: 20rpx;margin-left: 20rpx;">
+          <my_select title="面试次数" bind:tap="chooseSector" nowId="{{selectIndex_StateNum}}" nameList="{{stateNumList}}" nowName="{{stateNum.name}}" placeholder="面试次数" bind:handleChange="stateNumChange">
+          </my_select>
+        </view>
+
+        <view style="margin-top: 20rpx;margin-left: 20rpx;">
+          <my_select title="当前进度" bind:tap="chooseSector" nowId="{{selectIndex_State}}" nameList="{{stateList}}" nowName="{{state}}" placeholder="当前进度" bind:handleChange="stateChange">
+          </my_select>
+        </view>
+
+        <view style="margin-top: 20rpx;margin-left: 20rpx;">
+          <my_select title="企业性质" bind:tap="chooseSector" nowId="{{selectIndex_EN}}" nameList="{{enterpriseNatureList}}" nowName="{{enterpriseNature}}" placeholder="企业性质" bind:handleChange="ENchange">
+          </my_select>
+        </view>
+
+        <view style="margin-top: 20rpx;margin-left: 20rpx;">
+          <my_select title="企业规模" bind:tap="chooseSector" nowId="{{selectIndex_CS}}" nameList="{{CompanySizeList}}" nowName="{{CompanySize}}" placeholder="公司规模" bind:handleChange="companySizeChange">
+          </my_select>
+        </view>
+
+        <van-cell-group>
+          <van-field model:value="{{ note }}" label="备注" type="textarea" placeholder="请输入备注" autosize border="{{ false }}" />
+        </van-cell-group>
 
         <button bind:tap="addRecord"><text style="color: rgb(131, 199, 199);">创建记录</text></button>
 
-    </van-cell-group>
+      </van-cell-group>
     </view>
 
-</van-popup>
+  </van-popup>
 
-<!-- 确认弹框 -->
-<van-dialog id="van-dialog" />
+  <!-- 确认弹框 -->
+  <van-dialog id="van-dialog" />
 
+  <!-- 排序弹出层 -->
+  <van-popup z-index="{{999}}" show="{{ showSortPanel }}" bind:close="sortPnelClose">
+    <view style="height: 700rpx;width: 500rpx;">
+      <van-picker show-toolbar title="排序模式" columns="{{ sortModeList }}" bind:cancel="onSortModeCancel" bind:confirm="onSortModeConfirm" />
+    </view>
+  </van-popup>
+
+  <!-- 时间选择器 -->
+  <van-popup close-on-click-overlay="{{true}}" round z-index="{{999}}" show="{{ showTimePanel }}">
+    <view style="height: 700rpx;width: 700rpx;">
+      <van-datetime-picker type="datetime" value="{{ currentDate }}" min-date="{{ minDate }}" max-date="{{ maxDate }}" bind:input="onTimeInput" bind:confirm="onTimePanelConfirm" bind:cancel="onTimePanelClose" />
+    </view>
+  </van-popup>
+
+  <!-- 修改用户信息弹出层 -->
+  <van-popup z-index="{{999}}" show="{{ showUserInfoPanel }}" bind:close="showUserInfoPanelClose">
+    <view style="height: 700rpx;width: 500rpx;">
+      <van-cell-group>
+        <van-field model:value="{{ userInfo.nickName }}" placeholder="请输入用户名" border="{{ false }}"/>
+      </van-cell-group>
+    </view>
+  </van-popup>
 
 </view>

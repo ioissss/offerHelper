@@ -9,14 +9,20 @@ page{
   height: 100%;
 }
 
+.navBar{
+  height: 60px;
+  margin-top: 40px;
+}
+
 .card{
   margin-top: 50rpx;
   width: 90%;
   margin-left: 5%;
-  height: 420rpx;
-  background: #c1f3e2;
+  height: auto;
+  background: #ffffff;
   border-radius: 30rpx;
   box-shadow: 5px 5px 5px #cdcfcf;
+  opacity: 0.7;
  }
 
  .CompanyInfo{
@@ -36,8 +42,11 @@ page{
 }
 
 .fixed-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed; /* 固定在屏幕上 */
-  top: 1250rpx; /* 距离屏幕顶部 0 */
+  top: 1350rpx; /* 距离屏幕顶部 0 */
   left: 580rpx; /* 距离屏幕左侧 0 */
   z-index: 9999; /* 确保位于最上层 */
   background-color: transparent; /* 背景透明（可根据需要调整） */

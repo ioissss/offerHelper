@@ -1,7 +1,7 @@
 <wxs src="../../table.wxs" module="table" />
 <!-- 标识符字符串是传进来的 -->
 <view class="table-line">
-  <view class="tr" bindtap="handleClickListItem" data-item="{{item}}" data-index="{{index}}">
+  <view class="tr" style="{{selectedRowKey === item.id?'background-color: #000000;':''}}" bindtap="handleClickListItem" data-item="{{item}}" data-index="{{index}}">
     <view class="td select" wx:if="{{select}}">
       <checkbox checked="{{checked}}" catchtap="handleClickCheck" data-item="{{item}}" data-index="{{index}}" />
     </view>

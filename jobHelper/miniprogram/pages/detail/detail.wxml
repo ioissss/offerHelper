@@ -13,25 +13,35 @@
 12. 备注 -->
 
 <!-- 公司信息 -->
+
+<view class="navBar" style="display: flex;align-items: center;">
+  <view style="margin-left: 50rpx;">
+    <van-image bind:tap="GoBack" round width="50rpx" height="50rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E8%BF%94%E5%9B%9E.png" />
+  </view>
+</view>
+
+
 <view class="card">
 
   <view class="CompanyInfo">
-    <text bind:tap="ModifyCompanyName" style="margin-left: 20rpx;font-weight: 750;font-size: 40rpx;">{{record.company}}</text>
-    <view style="display: flex;flex-direction: row; align-items: center;margin-left: 300rpx;">
+    <view style="margin-left: 20rpx;margin-top: 10rpx; font-weight: 750;font-size: 40rpx;">
+      <text bind:tap="ModifyCompanyName">{{record.company}}</text>
+    </view>
+    <view style="display: flex;flex-direction: row; align-items: center;margin-left: auto;margin-right: 30rpx;">
       <van-icon size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%85%B6%E4%BB%96%E4%BA%BA%E5%91%98.png" />
       <text bind:tap="clickOnCompanySize" style="font-size: 30rpx;color: #5f5d5d;">{{record.CompanySize.name}}</text>
     </view>
   </view>
 
-  <view class="dashed-line" style="position: relative; left: 17rpx; top: -16rpx"></view>
+  <view class="dashed-line"></view>
 
   <!-- 标签 -->
   <view style="margin-left: 20rpx;">
     <block>
-      <van-tag size="medium" color="#f2826a">{{}}</van-tag>
+      <van-tag wx:if="{{record.industry !== ''}}" size="medium" color="#f2826a">{{record.industry}}</van-tag>
     </block>
-    <van-tag bind:tap="clickOnCompanyNature" style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.enterpriseNature.name}}</van-tag>
-    <van-tag bind:tap="ModifyCity" style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.city}}</van-tag>
+    <van-tag wx:if="{{record.enterpriseNature.name !== ''}}" bind:tap="clickOnCompanyNature" style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.enterpriseNature.name}}</van-tag>
+    <van-tag wx:if="{{record.city !== ''}}" bind:tap="ModifyCity" style="margin-left: 50rpx;" size="medium" color="#a4c9d1">{{record.city}}</van-tag>
   </view>
 
   <view style="margin-left: 20rpx;display: flex;flex-direction: column;margin-top: 15rpx;">
@@ -40,8 +50,8 @@
     <text bind:tap="ModifyJobDesc" style="font-size: 20rpx;color: rgb(133, 119, 119);margin-top: 10rpx;">投递岗位 : {{record.job}}</text>
   </view>
 
-  <view style=" margin-left: 35rpx;margin-top: 10rpx;width: 90%;">
-    <van-steps bind:click-step="onClickStep" steps="{{ steps }}" active="{{ active }}" active-color="#29f07f" />
+  <view style=" margin-left: 35rpx;margin-top: 20rpx;width: 90%;margin-bottom: 20rpx;">
+    <van-steps bind:click-step="onClickStep" steps="{{ record.steps}}" active="{{ record.curStep }}" active-color="#29f07f" />
   </view>
 
 </view>
@@ -56,12 +66,19 @@
       <text bind:tap="ModifyJobDesc" style="color: rgb(133, 119, 119);">{{record.jobDesc}}</text>
     </view>
     <!-- 最大上传100KB字节 -->
-    <view style="margin-top: 25rpx;">
-      <van-uploader show-upload="{{false}}" bind:before-read="beforeRead" bind:delete="deleteImg" max-size="{{1000*1024}}" deletable="{{ editMode }}" max-count="1" file-list="{{ record.imgFile }}" bind:after-read="afterRead">
-        <view wx:if="{{record.imgFile.length == 0 && editMode}}" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 470rpx;">
-          <van-image width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png" />
+    <view style="margin-top: 25rpx;width: 100%;">
+      <button bind:tap="downLoadImage" wx:if="{{imageURL.length ===0 && record.imgFile.length > 0}}">加载图片</button>
+      <van-image bind:tap="chooseImage" wx:if="{{editMode && imageURL.length === 0}}" round width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png" />
+
+      <!-- 显示图片 -->
+      <view style="position: relative;width: 195rpx;">
+        <view style="position: absolute; top: 0; right: 0;">
+          <van-image wx:if="{{editMode && imageURL.length > 0}}" bind:tap="deleteImg" width="50rpx" height="50rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%88%A0%E9%99%A4%20(1).png" />
         </view>
-      </van-uploader>
+
+        <image bind:tap="previewImage" wx:if="{{imageURL.length > 0}}" style="width: 150rpx;height: 150rpx;" src="{{imageURL[0]}}" />
+      </view>
+
     </view>
   </view>
 
@@ -75,8 +92,12 @@
       <view wx:if="{{editMode}}" style="position: absolute; top: 0; right: 0;z-index: 999;">
         <van-image bind:tap="deleteResumeFile" width="50rpx" height="50rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%88%A0%E9%99%A4%20(1).png" />
       </view>
-      <van-image width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png" />
-      <text style="margin-top: 10rpx;color: rgb(138, 141, 141);">{{record.resumeFile.name}}</text>
+      <view bind:tap="downLoadResume" style="display: flex;justify-content: center;flex-direction: column;margin-top: 10rpx;color: rgb(138, 141, 141);">
+        <van-image width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%96%87%E6%A1%A3.png" />
+        <view style="margin-left: 20rpx;">
+          {{record.resumeFile.name}}
+        </view>
+      </view>
     </view>
     <view bind:tap="chooseFileFromMessage" style="margin-top: 30rpx;display: flex;flex-direction: column;margin-left: 550rpx;" wx:if="{{record.resumeFile.path === '' && editMode}}">
       <van-image width="120rpx" height="120rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%20(2).png" />
@@ -87,8 +108,6 @@
   <view style="margin-left: 120rpx;margin-top: 20rpx;width: 70%;">
     <text bind:tap="ModifyNote" style="color: rgb(133, 119, 119);">{{record.note}}</text>
   </view>
-
-
 
   <van-divider />
 
@@ -114,6 +133,6 @@
 
 <van-popup show="{{ showSelector }}" bind:close="onClose">
   <view style="height:700rpx;width:600rpx;">
-  <van-picker show-toolbar title="{{pickerTitle}}" columns="{{ pickerColumns }}" bind:cancel="onPickerCancel" bind:confirm="onPickerConfirm" />
-</view>
+    <van-picker show-toolbar title="{{pickerTitle}}" columns="{{ pickerColumns }}" bind:cancel="onPickerCancel" bind:confirm="onPickerConfirm" />
+  </view>
 </van-popup>

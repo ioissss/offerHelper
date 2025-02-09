@@ -4,9 +4,13 @@ Component({
         multipleSlots: true
     },
     properties: {
+      selectedRowKey:{
+          type:Number,
+          value:-1
+        },
         rowKey: {
             type: String,
-            value: 'id'
+            value: ''
         },
         columns: {
             type: Array,
@@ -54,6 +58,8 @@ Component({
         expandAimation: null,
         expandAimationData: null,
         expanded: false
+    },
+    observers:{
     },
     methods: {
         handleClickListItem(e) {

@@ -8,4 +8,19 @@
   <block wx:if="{{columns.key === 'enterpriseNature'}}">
     {{item.enterpriseNature.name}}
   </block>
+  <block wx:if="{{columns.key === 'city'}}">
+    {{item.city}}
+  </block>
+  <block wx:if="{{columns.key === 'date'}}">
+    {{item.date}}
+  </block>
+  <block wx:if="{{columns.key === 'company'}}">
+    {{item.company}}
+  </block>
+  <block wx:if="{{columns.key === 'job'}}">
+    {{item.job}}
+  </block>
+  <block wx:if="{{columns.key === 'interview'}}">
+    <van-image width="50rpx" height="50rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E9%A2%84%E7%BA%A6%E9%9D%A2%E8%AF%95.png" />
+  </block>
 </view>

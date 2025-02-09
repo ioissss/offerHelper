@@ -19,11 +19,12 @@ export function GetUserRecord(params){
   })
 }
 
-// 
+// 创建新用户记录
 export function AddUserRecord(userRecord){
   db.collection("records").add({
     data:{
-      record:userRecord
+      record:userRecord,
+      userInfo:"",
     },
     success:function(res){
       wx.showToast({
@@ -32,7 +33,10 @@ export function AddUserRecord(userRecord){
       })
     },
     fail:function(res){
-      console.log(res);
+      wx.showToast({
+        title: '创建用户失败',
+        icon:'none'
+      });
     }
   })
 }
@@ -61,6 +65,7 @@ export function AddRecord(record, successFunc){
       successFunc(res);
     },
     fail:function(res){
+      console.log(res);
       wx.showToast({
         title: '数据上传失败',
         icon:'error'
@@ -88,6 +93,12 @@ export async function DeleteRecords(keyList,successFunc){
       },
       success:function(res){
         successFunc(res);  //执行函数
+      },
+      fail:function(error){
+        wx.showToast({
+          title: '删除失败',
+          icon:'none'
+        });
       }
     }
   )
@@ -156,4 +167,78 @@ export async function GetOneRecord(id, successFunc){
       })
     }
   })
+}
+
+// 修改排序模式
+export async function UpdateSortMode(sortMode){
+  const openID = await UTIL.GetOpenid();
+  const _ = db.command;
+  db.collection('records').where({
+    '_openid':openID
+  }).update({
+    data:{
+      'sortMode':sortMode
+    }
+  })
+}
+
+// 修改面试提醒列表
+export async function updateInterviewList(newList, Func){
+  const openID = await UTIL.GetOpenid();
+  const _ = db.command;
+  db.collection('records').where({
+    '_openid':openID
+  }).update({
+    data:{
+      'interviewList':newList,
+    },
+    success:res=>{
+      Func.success && Func.success(res);
+    },
+    fail:error=>{
+      wx.showToast({
+        title: '上传失败',
+        icon:'error'
+      });
+      Func.fail && Func.fail(error);
+    }
+  })
+}
+
+// 上传用户名称，头像等信息
+export async function uploadUserInfo(userInfo){
+  const openID = await UTIL.GetOpenid();
+  const _ = db.command;
+  db.collection('records').where({
+    '_openid':openID
+  }).update({
+    data:{
+      'userInfo':userInfo,
+    },
+    success:res=>{
+      Func.success && Func.success(res);
+    },
+    fail:error=>{
+      Func.fail && Func.fail(error);
+    }
+  });
+}
+
+// 修改用户名称
+export async function modifyUserName(userName, Func){
+  const openID = await UTIL.GetOpenid();
+  const _ = db.command;
+  db.collection('records').where({
+    '_openid':openID
+  }).update({
+    data:{
+      'userInfo.nickName':userName,
+    },
+    success:res=>{
+      Func.success && Func.success(res);
+    },
+    fail:error=>{
+      Func.fail && Func.fail(error);
+    }
+  });
 }
