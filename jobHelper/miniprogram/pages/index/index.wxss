@@ -11,9 +11,10 @@ page{
 
 .personalInfo{
   width: 100%;
-  height: 230rpx;
+  height: 180rpx;
   display: flex;
   flex-direction: row;
+  margin-top: 15px;
 }
 
 .name{

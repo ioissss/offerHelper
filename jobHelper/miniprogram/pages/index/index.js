@@ -195,6 +195,10 @@ Page({
     isMainChartDisplay: true,
     // 修改用户信息
     showUserInfoPanel:false,
+
+    // 鼓励语
+    sayings:"111",
+    nickName:"",
   },
 
   // 获取用户数据
@@ -213,14 +217,20 @@ Page({
       }
     });
   },
-  // 修改用户名
+  // 修改用户个人信息
   modifyUserName(){
     this.setData({showUserInfoPanel:true});
   },
   showUserInfoPanelClose(e){
     this.setData({showUserInfoPanel:false});
     // 上传数据到服务器
-    DB.modifyUserName(this.data.userInfo.nickName);
+    DB.modifyUserName(this.data.nickName);
+    DB.modifySayings(this.data.sayings);
+    wx.showToast({
+      title: '已保存',
+      icon:'none'
+    });
+    this.setData({nickName:this.data.nickName,sayings:this.data.sayings});
   },
 
   // ------------ 时间选择器 --------------
@@ -397,6 +407,13 @@ Page({
     } else if (type === 'sex') {
       str = '点击了性别';
     }
+  },
+  selectAll(e){
+    this.data.selectedKeyList = [];
+    this.data.dataList.forEach(item=>{
+      this.data.selectedKeyList.push(item.id);
+    });
+    this.setData({selectedKeyList:this.data.selectedKeyList});
   },
 
   // --------------------- 打开排序面板 -----------------------
@@ -1130,7 +1147,9 @@ Page({
           dataList: res.data[0].record,
           sortMode: res.data[0].sortMode,
           interviewList: res.data[0].interviewList,
-          userInfo: res.data[0].userInfo
+          userInfo: res.data[0].userInfo,
+          sayings:res.data[0].sayings,
+          nickName:res.data[0].userInfo.nickName
         });
         this.Init();
       },

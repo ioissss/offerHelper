@@ -2,19 +2,23 @@
 
   <!-- 个人信息栏 -->
   <view wx:if="{{userInfo !== ''}}" class="personalInfo">
-    <view style="display: flex;justify-content: center;flex-direction: column;margin-left: 40rpx;">
+    <view style="margin-left: 40rpx;flex-direction: column;margin-top: 20rpx;">
       <!-- 名字 -->
-      <view style="display: flex;align-items: center;">
-        <text style="font-weight: 530;font-size: 35rpx;">{{userInfo.nickName}}</text>
-        <van-image bind:tap="modifyUserName" style="margin-left: 40rpx;" width="35rpx" height="35rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png" />
+      <view style="display: flex;flex-direction: row;align-items: center;">
+        <text style="font-weight: 530;font-size: 35rpx;">{{nickName}}</text>
+        <van-image style="margin-top: 10rpx;margin-left: 10rpx;" bind:tap="modifyUserName" width="30rpx" height="30rpx" src="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%AE%E6%94%B9.png" />
       </view>
+
       <!-- 额外信息 -->
-      <text style="font-size: 18rpx; font-weight: 100rpx;margin-top: 5rpx;">
-        "{{"211"}}"
-      </text>
+      <view style="width: 80%;display: flex;">
+        <text style="font-size: 18rpx; font-weight: 100rpx;margin-top: 5rpx;">
+          "{{sayings}}"
+        </text>
+      </view>
     </view>
 
-    <view class="name" style="margin-left: auto;margin-right: 40rpx;">
+    <!-- 头像 -->
+    <view style="margin-left: auto;margin-right: 40rpx;">
       <van-image round width="100rpx" height="100rpx" src="{{userInfo.avatarUrl}}" />
     </view>
   </view>
@@ -23,7 +27,6 @@
 
   <!-- 统计信息栏 -->
   <view class="statistical">
-
 
     <view class="statistical-item">
       <view>
@@ -91,19 +94,27 @@
           </view>
         </view>
 
-        <view wx:if="{{editorMode}}" style="margin-left: 30rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;">
+        <view wx:if="{{editorMode}}" style="margin-left: 10rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;">
+          <van-icon bind:tap="selectAll" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%85%A8%E9%80%89%20(1).png" />
+          <view>
+            <text style="font-size: 25rpx;color: rgb(92, 92, 91);">全选</text>
+          </view>
+        </view>
+
+        <view wx:if="{{editorMode}}" style="margin-left: 50rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;">
           <van-icon bind:tap="deleteRecords" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E5%88%A0%E9%99%A4.png" />
           <view>
             <text style="font-size: 25rpx;color: rgb(92, 92, 91);">删除</text>
           </view>
         </view>
+
         <view wx:if="{{!editorMode}}" style="margin-left: 30rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;">
           <van-icon bind:tap="enterEditorMode" size="50rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5.png" />
           <view>
             <text style="font-size: 25rpx;color: rgb(92, 92, 91);">导入</text>
           </view>
         </view>
-        <view style="margin-left: 555rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;" wx:if="{{editorMode}}">
+        <view style="margin-left: 460rpx;display: flex;flex-direction: column;justify-content: center; align-items: center;" wx:if="{{editorMode}}">
           <van-icon bind:tap="saveEdit" size="65rpx" name="https://gitee.com/xing-xi-zhang/111/raw/master/%E4%BF%9D%E5%AD%98.png" />
           <view>
             <text style="font-size: 25rpx;color: rgb(92, 92, 91);">保存</text>
@@ -266,11 +277,17 @@
   </van-popup>
 
   <!-- 修改用户信息弹出层 -->
-  <van-popup z-index="{{999}}" show="{{ showUserInfoPanel }}" bind:close="showUserInfoPanelClose">
-    <view style="height: 700rpx;width: 500rpx;">
-      <van-cell-group>
-        <van-field model:value="{{ userInfo.nickName }}" placeholder="请输入用户名" border="{{ false }}"/>
-      </van-cell-group>
+  <van-popup round z-index="{{999}}" show="{{ showUserInfoPanel }}">
+    <view style="height: 600rpx;width: 500rpx;display: flex;align-content: center;justify-content: center;">
+      <view>
+        <van-cell-group>
+          <view style="margin-top: 50rpx;margin-left: 25rpx;">
+            <van-field label="用户名" model:value="{{ nickName }}" placeholder="请输入用户名" maxlength="{{10}}" border="{{ true }}" />
+            <van-field type="textarea" autosize label="留言" model:value="{{ sayings }}" placeholder="请输入用户名" border="{{ true }}" maxlength="{{70}}" />
+          </view>
+          <button bind:tap="showUserInfoPanelClose" style="position: absolute; top: 450rpx;left: 50%;transform: translateX(-50%); width: 100%;border-radius: 10rpx;">提交</button>
+        </van-cell-group>
+      </view>
     </view>
   </van-popup>
 

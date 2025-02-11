@@ -242,3 +242,22 @@ export async function modifyUserName(userName, Func){
     }
   });
 }
+
+// 修改格言
+export async function modifySayings(sayings, Func){
+  const openID = await UTIL.GetOpenid();
+  const _ = db.command;
+  db.collection('records').where({
+    '_openid':openID
+  }).update({
+    data:{
+      'sayings':sayings,
+    },
+    success:res=>{
+      Func.success && Func.success(res);
+    },
+    fail:error=>{
+      Func.fail && Func.fail(error);
+    }
+  });
+}
